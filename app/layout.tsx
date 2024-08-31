@@ -6,6 +6,7 @@ import NextTopLoader from 'nextjs-toploader';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { useRTLStore } from '@/lib/store';
+import Providers from '@/components/layout/providers';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -23,8 +24,10 @@ export default function RootLayout({
         dir={isRTL ? 'rtl' : 'ltr'}
       >
         <NextTopLoader showSpinner={false} />
+        <Providers>
           <Toaster />
           {children}
+        </Providers>
       </body>
     </html>
   );
