@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -77,5 +76,21 @@
   .h-screen {
     height: 100vh; /* Fallback */
     height: 100dvh;
+  }
+}
+
+.floating {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0);
   }
 }

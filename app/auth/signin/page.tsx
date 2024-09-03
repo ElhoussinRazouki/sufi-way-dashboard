@@ -4,6 +4,7 @@ import Link from 'next/link';
 import UserAuthForm from '@/components/forms/user-auth-form';
 import { useUser } from '@/hooks/auth.hook';
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 export default function AuthenticationPage() {
   const { isAuthenticated } = useUser();
@@ -50,7 +51,15 @@ export default function AuthenticationPage() {
           </p>
         </div>
       </div>
-      <div className="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex"></div>
+      <div className="imagContainer relative hidden h-full overflow-hidden bg-muted text-white dark:border-r lg:block">
+        <Image
+          src={'/images/loginImage.jpg'}
+          alt={`Login image`}
+          className="object-cover"
+          width={4000}
+          height={4000}
+        />
+      </div>
     </div>
   );
 }
