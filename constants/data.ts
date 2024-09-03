@@ -1,4 +1,5 @@
 import { NavItem } from '@/types';
+import { LibraryBig, Newspaper } from 'lucide-react';
 
 export type User = {
   id: number;
@@ -118,33 +119,15 @@ export const navItems: NavItem[] = [
     label: 'Dashboard'
   },
   {
-    title: 'User',
-    href: '/dashboard/user',
-    icon: 'user',
-    label: 'user'
+    title: 'Multimedia Library',
+    href: '/dashboard/multimedia',
+    lucidIcon: LibraryBig,
+    label: 'Multimedia Library'
   },
   {
-    title: 'Employee',
-    href: '/dashboard/employee',
-    icon: 'employee',
-    label: 'employee'
+    title: 'News',
+    href: '/dashboard/news',
+    lucidIcon: Newspaper,
+    label: 'News'
   },
-  {
-    title: 'Profile',
-    href: '/dashboard/profile',
-    icon: 'profile',
-    label: 'profile'
-  },
-  {
-    title: 'Kanban',
-    href: '/dashboard/kanban',
-    icon: 'kanban',
-    label: 'kanban'
-  },
-  {
-    title: 'Login',
-    href: '/',
-    icon: 'login',
-    label: 'login'
-  }
 ];

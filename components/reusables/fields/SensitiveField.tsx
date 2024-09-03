@@ -35,7 +35,7 @@ const SensitiveField = forwardRef<HTMLInputElement, SensitiveFieldProps>(
         <div className="relative">
           <Input
             type={showData ? "text" : "password"}
-            className={cn("hide-password-toggle z-0", className)}
+            className={cn("hide-password-toggle z-0 pr-8", className)}
             ref={ref}
             {...field}
             {...props}
@@ -44,7 +44,7 @@ const SensitiveField = forwardRef<HTMLInputElement, SensitiveFieldProps>(
             type="button"
             variant="ghost"
             size="sm"
-            className="absolute left-0 top-0 h-full px-3 z-10 py-2 hover:cursor-pointer hover:bg-transparent"
+            className="absolute right-0 top-0 h-full px-3 z-10 py-2 hover:cursor-pointer hover:bg-transparent"
             onClick={() => setShowDate((prev) => !prev)}
             disabled={props.disabled}
           >

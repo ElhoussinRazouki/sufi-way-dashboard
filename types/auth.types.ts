@@ -14,8 +14,8 @@ export type ResponseDto<T> = {
 }
 
 export type AuthTokenDto = {
-  refresh: RefreshToken
-  access: AccessToken
+  refreshToken: RefreshToken
+  accessToken: AccessToken
 }
 
 export const AuthTokenDtoSchema = Yup.object().shape({

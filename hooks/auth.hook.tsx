@@ -41,8 +41,7 @@ export function useUser() {
 
   // Get the user data
   const tokens = getAuthTokenFromLocalStorage()
-  const user = getUserInfoFromJWT(tokens?.access || "")
-
+  const user = getUserInfoFromJWT(tokens?.accessToken || "")
   const isAuthenticated: boolean = !!tokens
 
   // eslint-disable-next-line react-hooks/exhaustive-deps

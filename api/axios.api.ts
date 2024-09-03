@@ -20,8 +20,8 @@ axiosApi.interceptors.request.use(async (config) => {
   try {
     authToken = getAuthTokenFromLocalStorage()
 
-    if (authToken?.access) {
-      config.headers["Authorization"] = `Bearer ${authToken.access}`
+    if (authToken?.accessToken) {
+      config.headers["Authorization"] = `Bearer ${authToken.accessToken}`
     }
   } catch (err) {
     authToken = null
@@ -40,7 +40,7 @@ axiosApi.interceptors.response.use(
     // Handle an error response
     if (error.response.status === 401) {
       // try to refresh the token
-      const refreshToken = getAuthTokenFromLocalStorage()?.refresh
+      const refreshToken = getAuthTokenFromLocalStorage()?.refreshToken
       if (refreshToken) {
         try {
           const newAuthToken = await APIs.auth.refreshAuthToken(refreshToken)

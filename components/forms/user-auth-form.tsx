@@ -6,23 +6,25 @@ import { cn } from "@/lib/utils"
 import axios from "axios"
 import { Formik } from "formik"
 import { useCallback } from "react"
-import { toast } from "react-toastify"
 import * as yup from "yup"
 import { InputField } from "../reusables"
 import SensitiveField from "../reusables/fields/SensitiveField"
+import { useToast } from "../ui/use-toast"
+
 
 const loginSchema = yup.object().shape({
-  email: yup.string().required("الرجاء إدخال بريدك الإلكتروني"),
-  password: yup.string().required("الرجاء إدخال كلمة المرور الخاصة بك"),
+  email: yup.string().required("Please enter your email"),
+  password: yup.string().required("Please enter your password"),
 })
 
 const initialValues = {
-  email: "",
-  password: "",
+  email: "razzoukihoussin@gmail.com",
+  password: "P@ss0w0rd",
 }
 
 export default function LoginForm({ className }: { className?: string }) {
   const { auth, redirect } = useAuth()
+  const { toast } = useToast()
 
   const handleSubmit = useCallback(
     async (values: { email: string; password: string }) => {
@@ -33,7 +35,7 @@ export default function LoginForm({ className }: { className?: string }) {
         }
       } catch (err) {
         if (axios.isAxiosError(err) && err.response?.status === 401) {
-          toast.error("اسم المستخدم أو كلمة المرور غير صالحة!")
+          toast({ title: err.response.data?.message, variant: "destructive"})
         }
       }
     },
@@ -45,9 +47,9 @@ export default function LoginForm({ className }: { className?: string }) {
       {({ values, handleChange, handleBlur, handleSubmit }) => (
         <form onSubmit={handleSubmit}>
           <div className={cn("grid gap-4", className)}>
-            <InputField name="email" label="بريد إلكتروني" placeholder="بريد إلكتروني" />
-            <SensitiveField name="password" label="كلمة المرور" placeholder="******" />
-            <SubmitButton title="تسجيل الدخول" />
+            <InputField name="email" label="" placeholder="e.g. ahmed@ux.ai" />
+            <SensitiveField name="password" label="Password" placeholder="******" />
+            <SubmitButton title="Login" />
           </div>
         </form>
       )}

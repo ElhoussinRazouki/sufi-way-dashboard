@@ -1,7 +1,6 @@
 "use client"
 
 import { useUser } from '@/hooks/auth.hook'
-import React from 'react'
 
 function EntryPage() {
   const { isAuthenticated } = useUser()

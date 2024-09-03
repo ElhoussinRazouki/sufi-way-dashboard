@@ -12,18 +12,21 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { useAuth, useUser } from '@/hooks/auth.hook';
+import { useRouter } from 'next/navigation';
 
 export function UserNav() {
   const { user } = useUser();
   const { logout } = useAuth();
+  const router = useRouter();
+
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="relative h-8 w-8 rounded-full">
             <Avatar className="h-8 w-8">
               <AvatarImage
-                src={user?.avatar ?? ''}
-                alt={user?.userName ?? ''}
+                src={user?.avatar}
+                alt={user?.userName}
               />
               <AvatarFallback>{user?.userName}</AvatarFallback>
             </Avatar>
@@ -46,18 +49,17 @@ export function UserNav() {
               Profile
               <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
             </DropdownMenuItem>
-            <DropdownMenuItem>
-              Billing
-              <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-            </DropdownMenuItem>
+            
             <DropdownMenuItem>
               Settings
               <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
             </DropdownMenuItem>
-            <DropdownMenuItem>New Team</DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => logout()}>
+          <DropdownMenuItem onClick={() => {
+            logout()
+            router.push('/')
+          }}>
             Log out
             <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
           </DropdownMenuItem>

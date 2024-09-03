@@ -15,6 +15,7 @@ import {
   TooltipTrigger
 } from './ui/tooltip';
 import ThemeToggle from './layout/ThemeToggle/theme-toggle';
+import { LucideIcon } from 'lucide-react';
 
 interface DashboardNavProps {
   items: NavItem[];
@@ -39,7 +40,7 @@ export function DashboardNav({
     <nav className="grid items-start gap-2   ">
       <TooltipProvider>
         {items.map((item, index) => {
-          const Icon = Icons[item.icon || 'arrowRight'];
+          const Icon = item.icon?Icons[item.icon]: item.lucidIcon as LucideIcon;
           return (
             item.href && (
               <Tooltip key={index}>
@@ -47,7 +48,7 @@ export function DashboardNav({
                   <Link
                     href={item.disabled ? '/' : item.href}
                     className={cn(
-                      'flex items-center gap-2 overflow-hidden rounded-md py-2 px-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground',
+                      'flex items-center gap-2 overflow-hidden rounded-md py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground',
                       path === item.href ? 'bg-accent' : 'transparent',
                       item.disabled && 'cursor-not-allowed opacity-80'
                     )}
@@ -55,7 +56,7 @@ export function DashboardNav({
                       if (setOpen) setOpen(false);
                     }}
                   >
-                    <Icon className={`ml-3 size-5 flex-none`} />
+                    <Icon className={`ml-3 size-5 flex-none`}  />
 
                     {isMobileNav || (!isMinimized && !isMobileNav) ? (
                       <span className="mr-2 truncate">{item.title}</span>
@@ -77,7 +78,7 @@ export function DashboardNav({
           );
         })}
       </TooltipProvider>
-      <ThemeToggle />
+      <div className='absolute bottom-2 left-2'><ThemeToggle /></div>
     </nav>
   );
 }

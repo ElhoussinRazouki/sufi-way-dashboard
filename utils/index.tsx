@@ -19,12 +19,13 @@ export function removeAuthTokenFromLocalStorage() {
 export function getUserInfoFromJWT (token: string): UserDto | null {
   try {
     // Decode the token
-    const decodedToken: any = jwtDecode(token);
+    const decodedToken: any = decodeToken(token);
 
+    console.log("decodedToken", decodedToken)
     // Extract user info
     const userInfo: UserDto = {
       id: decodedToken.id,
-      userName: decodedToken.username,  
+      userName: decodedToken.userName,  
       email: decodedToken.email, 
       is_admin: decodedToken.roles, 
       avatar: decodedToken.avatar,
@@ -46,6 +47,16 @@ export function wait(milliseconds: number) {
 
 export function getAvailableTimezones() {
   return ["UTC"].concat(Intl.supportedValuesOf("timeZone"))
+}
+
+function decodeToken(token: string) {
+  try {
+    const decoded = jwtDecode(token);
+    return decoded;
+  } catch (error) {
+    console.error("Invalid token:", error);
+    return null;
+  }
 }
 
 export function getAvailableTimezonesOptionList() {

@@ -1,11 +1,11 @@
 import { Icons } from '@/components/icons';
-
 export interface NavItem {
   title: string;
   href?: string;
   disabled?: boolean;
   external?: boolean;
   icon?: keyof typeof Icons;
+  lucidIcon?: LucideIcon;
   label?: string;
   description?: string;
 }
@@ -28,7 +28,7 @@ export interface FooterItem {
 }
 
 import { IconProps } from "@radix-ui/react-icons/dist/types"
-import { LucideIcon } from "lucide-react"
+import { Home, LucideIcon } from "lucide-react"
 import * as Yup from "yup"
 
 export type IconType = LucideIcon | React.ComponentType<IconProps>
