@@ -1,10 +1,8 @@
-"use client"
+'use client'; // Add this at the top
 
 import Header from '@/components/layout/header';
 import Sidebar from '@/components/layout/sidebar';
 import { useUser } from '@/hooks/auth.hook';
-
-
 
 export default function DashboardLayout({
   children
@@ -14,8 +12,12 @@ export default function DashboardLayout({
   const { isAuthenticated } = useUser();
 
   if (!isAuthenticated) {
-    window.location.replace('/');
+    if (typeof window !== 'undefined') {
+      window.location.replace('/');
+    }
+    return null;
   }
+
   return (
     <div className="flex">
       <Sidebar />

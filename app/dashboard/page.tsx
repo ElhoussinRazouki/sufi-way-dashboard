@@ -1,8 +1,18 @@
+'use client';
+
 import { CalendarDateRangePicker } from '@/components/date-range-picker';
 import PageContainer from '@/components/layout/page-container';
 import { Button } from '@/components/ui/button';
+import { useEffect, useState } from 'react';
 
-export default function page() {
+export default function DashboardPage() {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null; // Prevent SSR
+
   return (
     <PageContainer scrollable={true}>
       <div className="space-y-2">

@@ -1,15 +1,23 @@
-"use client"
+'use client';
 
-import { useUser } from '@/hooks/auth.hook'
+import { useUser } from '@/hooks/auth.hook';
+import { useEffect, useState } from 'react';
 
 function EntryPage() {
-  const { isAuthenticated } = useUser()
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-  if(isAuthenticated){
-    return window.location.replace('/dashboard')
-  }else{
-    return window.location.replace('/auth/signin')
+  const { isAuthenticated } = useUser();
+
+  if (!mounted) return null; // Prevent SSR
+
+  if (isAuthenticated) {
+    return window.location.replace('/dashboard');
+  } else {
+    return window.location.replace('/auth/signin');
   }
 }
 
-export default EntryPage
+export default EntryPage;
