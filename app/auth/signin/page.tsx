@@ -52,13 +52,7 @@ export default function AuthenticationPage() {
         </div>
       </div>
       <div className="imagContainer relative hidden h-full overflow-hidden bg-muted text-white dark:border-r lg:block">
-        <Image
-          src={'/images/loginImage.jpg'}
-          alt={`Login image`}
-          className="object-cover"
-          width={4000}
-          height={4000}
-        />
+       
       </div>
     </div>
   );
