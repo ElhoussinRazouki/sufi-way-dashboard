@@ -4,7 +4,7 @@ import { useUser } from '@/hooks/auth.hook';
 import { useEffect, useState } from 'react';
 import { appWithTranslation } from 'next-i18next';
 
-function EntryPage() {
+export default function EntryPage() {
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
     setMounted(true);
@@ -25,4 +25,4 @@ function EntryPage() {
   return null;
 }
 
-export default appWithTranslation(EntryPage);
+// export default appWithTranslation(EntryPage);
