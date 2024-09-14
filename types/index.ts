@@ -1,4 +1,7 @@
 import { Icons } from '@/components/icons';
+import { IconProps } from '@radix-ui/react-icons/dist/types';
+import { LucideIcon } from 'lucide-react';
+
 export interface NavItem {
   title: string;
   href?: string;
@@ -27,66 +30,66 @@ export interface FooterItem {
   }[];
 }
 
-import { IconProps } from "@radix-ui/react-icons/dist/types"
-import { Home, LucideIcon } from "lucide-react"
-import * as Yup from "yup"
+import * as Yup from 'yup';
+import { MultimediaType } from './multimedia.types';
 
-export type IconType = LucideIcon | React.ComponentType<IconProps>
+export type IconType = LucideIcon | React.ComponentType<IconProps>;
 
-export type Prettify<Obj extends Record<string, any>> = { [K in keyof Obj]: Obj[K] }
+export type Prettify<Obj extends Record<string, any>> = {
+  [K in keyof Obj]: Obj[K];
+};
 
-export type TReturn<T> =
-  T extends Promise<infer U> ? U : T extends (...args: any[]) => infer R ? R : unknown
-
-
+export type TReturn<T> = T extends Promise<infer U>
+  ? U
+  : T extends (...args: any[]) => infer R
+  ? R
+  : unknown;
 
 // ###### Response types ######
 export type PaginatedResponseDto<T> = {
-  count: number
-  page_size: number
-  results: T[]
-}
+  page: number;
+  limit: number;
+  total: number;
+  data: T[];
+};
 
-export const PaginatedResponseDtoSchema = <T extends Yup.Schema<any>>(schema: T) => {
+export const PaginatedResponseDtoSchema = <T extends Yup.Schema<any>>(
+  schema: T
+) => {
   return Yup.object().shape({
     count: Yup.number().required(),
     page_size: Yup.number().required(),
-    results: Yup.array().of(schema).required(),
-  })
-}
+    results: Yup.array().of(schema).required()
+  });
+};
 
 export const ListResponseDtoSchema = <T extends Yup.Schema<any>>(schema: T) => {
-  return Yup.array().of(schema).optional()
-}
+  return Yup.array().of(schema).optional();
+};
 
 export type AttachmentDto = {
-  id: string
-  name: string
-  file: string
-  size: number
-  tag: string
-  link: string
-  updated: string
-  created: string
-}
-
-export type AttachmentPayloadDto = Partial<
-  Omit<AttachmentDto, "id" | "created" | "updated" | "file" | "link">
->
+  url: string;
+  name: string;
+  size: number;
+  type: string;
+};
 
 export const AttachmentDtoSchema = Yup.object().shape({
-  id: Yup.string().required(),
+  url: Yup.string().required(),
   name: Yup.string().required(),
-  file: Yup.string().required(),
   size: Yup.number().required(),
-  tag: Yup.string().optional(),
-  link: Yup.string().required(),
-  updated: Yup.string().required(),
-  created: Yup.string().required(),
-})
-
+  type: Yup.string().required()
+});
 
 export type MainNavItem = NavItemWithOptionalChildren;
 
 export type SidebarNavItem = NavItemWithChildren;
 
+export type ResponseDto<T> = {
+  data?: T;
+  message?: string;
+};
+
+// api related types
+
+export type AttachmentTypes = 'video' | 'image' | 'audio' | 'pdf';

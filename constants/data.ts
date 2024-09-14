@@ -9,6 +9,7 @@ export type User = {
   verified: boolean;
   status: string;
 };
+
 export const users: User[] = [
   {
     id: 1,
@@ -129,5 +130,7 @@ export const navItems: NavItem[] = [
     href: '/dashboard/news',
     lucidIcon: Newspaper,
     label: 'News'
-  },
+  }
 ];
+
+export const MULTIMEDIA_TYPES = ['video', 'audio', 'pdf'] as const;

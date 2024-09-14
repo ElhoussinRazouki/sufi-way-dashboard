@@ -1,11 +1,14 @@
-import auth from './auth.api'
-import profile from './profile.api'
-
+import auth from './auth.api';
+import profile from './profile.api';
+import multimedia from './multimedia.api';
+import common from './common.api';
 
 const APIs = {
-    auth,
-    profile
-    //... extend with other APIs here
-}
+  auth,
+  profile,
+  multimedia,
+  common
+  //... extend with other APIs here
+};
 
-export default APIs
+export default APIs;

@@ -1,5 +1,6 @@
 import { AuthTokenDto, UserDto } from '@/types/auth.types';
 import { jwtDecode } from 'jwt-decode';
+import dayjs from 'dayjs';
 
 const AUTH_TOKEN_NAME = 'auth' as const;
 
@@ -102,8 +103,6 @@ export function formatCurrency(
     maximumFractionDigits = 2,
     ...restOptions
   } = options;
-
-  console.log(restOptions);
 
   return new Intl.NumberFormat(locale, {
     ...restOptions,
@@ -244,4 +243,25 @@ export function generateColorsFromString(str: string) {
     vibrantColor: colorVariants[colorIndex][600],
     shinyColor: colorVariants[colorIndex][200]
   };
+}
+
+// date format
+interface FormatOptions {
+  format?: 'full' | 'short';
+  includeTime?: boolean;
+}
+
+export function formatDate(
+  dateString: string,
+  options: FormatOptions = { format: 'full' }
+): string {
+  const { format, includeTime } = options;
+
+  let dateFormat = format === 'short' ? 'DD MMM YYYY' : 'DD MMMM YYYY';
+
+  if (includeTime) {
+    dateFormat += ' HH:mm';
+  }
+
+  return dayjs(dateString).format(dateFormat);
 }

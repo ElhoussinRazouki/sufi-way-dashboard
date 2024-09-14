@@ -7,7 +7,6 @@ import { Icons } from '@/components/icons';
 import { cn } from '@/lib/utils';
 import { NavItem } from '@/types';
 import { Dispatch, SetStateAction } from 'react';
-import { useSidebar } from '@/hooks/useSidebar';
 import {
   Tooltip,
   TooltipContent,
@@ -16,6 +15,7 @@ import {
 } from './ui/tooltip';
 import ThemeToggle from './layout/ThemeToggle/theme-toggle';
 import { LucideIcon } from 'lucide-react';
+import { useLocalStorage } from '@/hooks';
 
 interface DashboardNavProps {
   items: NavItem[];
@@ -29,18 +29,19 @@ export function DashboardNav({
   isMobileNav = false
 }: DashboardNavProps) {
   const path = usePathname();
-  const { isMinimized } = useSidebar();
+  const [isMinimized] = useLocalStorage('sidebar', false);
 
   if (!items?.length) {
     return null;
   }
 
-
   return (
     <nav className="grid items-start gap-2   ">
       <TooltipProvider>
         {items.map((item, index) => {
-          const Icon = item.icon?Icons[item.icon]: item.lucidIcon as LucideIcon;
+          const Icon = item.icon
+            ? Icons[item.icon]
+            : (item.lucidIcon as LucideIcon);
           return (
             item.href && (
               <Tooltip key={index}>
@@ -56,7 +57,7 @@ export function DashboardNav({
                       if (setOpen) setOpen(false);
                     }}
                   >
-                    <Icon className={`ml-3 size-5 flex-none`}  />
+                    <Icon className={`ml-3 size-5 flex-none`} />
 
                     {isMobileNav || (!isMinimized && !isMobileNav) ? (
                       <span className="mr-2 truncate">{item.title}</span>
@@ -78,7 +79,9 @@ export function DashboardNav({
           );
         })}
       </TooltipProvider>
-      <div className='absolute bottom-2 left-2'><ThemeToggle /></div>
+      <div className="absolute bottom-2 left-2">
+        <ThemeToggle />
+      </div>
     </nav>
   );
 }

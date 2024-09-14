@@ -38,7 +38,7 @@ export default function LoginForm({ className }: { className?: string }) {
         }
       }
     },
-    [auth, redirect]
+    [auth, redirect, toast]
   );
 
   return (
