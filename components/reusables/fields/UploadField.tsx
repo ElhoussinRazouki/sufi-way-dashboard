@@ -37,7 +37,7 @@ export default function UploadField({
   formatProgress = (progress: number) => Math.round(progress),
   ...props
 }: UploadFieldProps) {
-  const [field, meta, helpers] = useField<string[]>({
+  const [field, meta, helpers] = useField<string>({
     name,
     validate: () => {
       if (required && !field.value) {
@@ -71,11 +71,14 @@ export default function UploadField({
           setProgress(0);
         })
         .then((data) => {
-          if (data) setUploadedFile(data);
+          if (data) {
+            setUploadedFile(data);
+            helpers.setValue(data.url);
+          }
           setProgress(0);
         });
     },
-    [accept, handleUploadProgress, name, progress, toast]
+    [accept, handleUploadProgress, helpers, name, progress, toast]
   );
 
   const handleError = useCallback(
@@ -94,7 +97,7 @@ export default function UploadField({
 
   return (
     <div className={cn('relative mb-5', className)}>
-      {label && <Label className="mb-2 block">{label}</Label>}
+      {label && <label className="mb-2 block">{label}</label>}
 
       <DropZone
         onUpload={handleUpload}
@@ -115,7 +118,7 @@ export default function UploadField({
   );
 }
 
-const getAcceptedFormats = (type: MultimediaType | 'image') => {
+export const getAcceptedFormats = (type: MultimediaType | 'image') => {
   const acceptMap: {
     [key in MultimediaType | 'image']: { [mime: string]: string[] };
   } = {

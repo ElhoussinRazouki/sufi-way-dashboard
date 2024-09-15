@@ -15,7 +15,7 @@ import {
 } from './ui/tooltip';
 import ThemeToggle from './layout/ThemeToggle/theme-toggle';
 import { LucideIcon } from 'lucide-react';
-import { useLocalStorage } from '@/hooks';
+import { useSidebar } from '@/hooks/useSidebar';
 
 interface DashboardNavProps {
   items: NavItem[];
@@ -29,7 +29,7 @@ export function DashboardNav({
   isMobileNav = false
 }: DashboardNavProps) {
   const path = usePathname();
-  const [isMinimized] = useLocalStorage('sidebar', false);
+  const { isMinimized } = useSidebar();
 
   if (!items?.length) {
     return null;

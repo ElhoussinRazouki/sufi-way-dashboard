@@ -3,15 +3,18 @@
 import { CalendarDateRangePicker } from '@/components/date-range-picker';
 import PageContainer from '@/components/layout/page-container';
 import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export default function DashboardPage() {
   const [mounted, setMounted] = useState(false);
+  const router = useRouter();
   useEffect(() => {
     setMounted(true);
   }, []);
 
   if (!mounted) return null; // Prevent SSR
+  return router.replace('/dashboard/authors');
 
   return (
     <PageContainer scrollable={true}>

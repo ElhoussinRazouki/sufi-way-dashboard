@@ -4,17 +4,17 @@ import { DashboardNav } from '@/components/dashboard-nav';
 import { navItems } from '@/constants/data';
 import { cn } from '@/lib/utils';
 import { ChevronLeft } from 'lucide-react';
-import { useLocalStorage } from '@/hooks';
+import { useSidebar } from '@/hooks/useSidebar';
 
 type SidebarProps = {
   className?: string;
 };
 
 export default function Sidebar({ className }: SidebarProps) {
-  const [isMinimized, toggle] = useLocalStorage('sidebar', false);
+  const { isMinimized, toggle } = useSidebar();
 
   const handleToggle = () => {
-    toggle(!isMinimized);
+    toggle();
   };
 
   return (

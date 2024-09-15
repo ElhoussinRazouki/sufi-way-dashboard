@@ -18,7 +18,7 @@ async function getMultimediaDetails(id: string) {
   const response = await axiosApi.get<ResponseDto<MultimediaDTO>>(
     `/multimedia/${id}`
   );
-  await multimediaDTOSchema.validate(response.data.data);
+  // await multimediaDTOSchema.validate(response.data.data);
   return response.data;
 }
 
@@ -36,7 +36,6 @@ async function updateMultimedia(id: string, update: MultimediaPatchDTO) {
     `/multimedia/${id}`,
     update
   );
-  await multimediaDTOSchema.validate(response.data.data);
   return response.data;
 }
 

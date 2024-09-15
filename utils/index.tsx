@@ -1,6 +1,7 @@
 import { AuthTokenDto, UserDto } from '@/types/auth.types';
 import { jwtDecode } from 'jwt-decode';
 import dayjs from 'dayjs';
+import { RANDOM_COLORS } from '@/constants/data';
 
 const AUTH_TOKEN_NAME = 'auth' as const;
 
@@ -114,137 +115,26 @@ export function formatCurrency(
 }
 
 // generate random colors
+export function generateColorsFromString(str: string, intensity: number = 1) {
+  // Ensure intensity is within the 1-10 range
+  const adjustedIntensity = Math.min(Math.max(intensity, 1), 10);
 
-const colorVariants = [
-  {
-    name: 'Slate',
-    200: 'rgb(226, 232, 240)',
-    600: 'rgb(71, 85, 105)'
-  },
-  {
-    name: 'Gray',
-    200: 'rgb(229, 231, 235)',
-    600: 'rgb(75, 85, 99)'
-  },
-  {
-    name: 'Zinc',
-    200: 'rgb(228, 228, 231)',
-    600: 'rgb(82, 82, 91)'
-  },
-  {
-    name: 'Neutral',
-    200: 'rgb(229, 229, 229)',
-    600: 'rgb(82, 82, 82)'
-  },
-  {
-    name: 'Stone',
-    200: 'rgb(231, 229, 228)',
-    600: 'rgb(87, 83, 78)'
-  },
-  {
-    name: 'Red',
-    200: 'rgb(254, 202, 202)',
-    600: 'rgb(220, 38, 38)'
-  },
-  {
-    name: 'Orange',
-    200: 'rgb(254, 215, 170)',
-    600: 'rgb(234, 88, 12)'
-  },
-  {
-    name: 'Amber',
-    200: 'rgb(253, 230, 138)',
-    600: 'rgb(217, 119, 6)'
-  },
-  {
-    name: 'Yellow',
-    200: 'rgb(254, 240, 138)',
-    600: 'rgb(202, 138, 4)'
-  },
-  {
-    name: 'Lime',
-    200: 'rgb(217, 249, 157)',
-    600: 'rgb(101, 163, 13)'
-  },
-  {
-    name: 'Green',
-    200: 'rgb(187, 247, 208)',
-    600: 'rgb(22, 163, 74)'
-  },
-  {
-    name: 'Emerald',
-    200: 'rgb(167, 243, 208)',
-    600: 'rgb(5, 150, 105)'
-  },
-  {
-    name: 'Teal',
-    200: 'rgb(153, 246, 228)',
-    600: 'rgb(13, 148, 136)'
-  },
-  {
-    name: 'Cyan',
-    200: 'rgb(165, 243, 252)',
-    600: 'rgb(8, 145, 178)'
-  },
-  {
-    name: 'Sky',
-    200: 'rgb(186, 230, 253)',
-    600: 'rgb(2, 132, 199)'
-  },
-  {
-    name: 'Blue',
-    200: 'rgb(191, 219, 254)',
-    600: 'rgb(37, 99, 235)'
-  },
-  {
-    name: 'Indigo',
-    200: 'rgb(199, 210, 254)',
-    600: 'rgb(79, 70, 229)'
-  },
-  {
-    name: 'Violet',
-    200: 'rgb(221, 214, 254)',
-    600: 'rgb(124, 58, 237)'
-  },
-  {
-    name: 'Purple',
-    200: 'rgb(233, 213, 255)',
-    600: 'rgb(147, 51, 234)'
-  },
-  {
-    name: 'Fuchsia',
-    200: 'rgb(245, 208, 254)',
-    600: 'rgb(192, 38, 211)'
-  },
-  {
-    name: 'Pink',
-    200: 'rgb(251, 207, 232)',
-    600: 'rgb(219, 39, 119)'
-  },
-  {
-    name: 'Rose',
-    200: 'rgb(254, 205, 211)',
-    600: 'rgb(225, 29, 72)'
-  }
-];
+  // Use the string length and intensity to create a base value
+  const baseValue = str.length * adjustedIntensity;
 
-export function generateColorsFromString(str: string) {
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    hash = str.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  // Convert hash to a positive number
-  hash = Math.abs(hash);
+  // Combine the base value with a unique seed from the string content
+  const uniqueSeed = str
+    .split('')
+    .reduce((acc, char) => acc + char.charCodeAt(0), 0);
 
-  // Get the index from the hash
-  const colorIndex = hash % colorVariants.length;
+  // Calculate the final index
+  const colorIndex = (baseValue + uniqueSeed) % RANDOM_COLORS.length;
 
   return {
-    vibrantColor: colorVariants[colorIndex][600],
-    shinyColor: colorVariants[colorIndex][200]
+    vibrantColor: RANDOM_COLORS[colorIndex][600],
+    shinyColor: RANDOM_COLORS[colorIndex][200]
   };
 }
-
 // date format
 interface FormatOptions {
   format?: 'full' | 'short';
@@ -264,4 +154,15 @@ export function formatDate(
   }
 
   return dayjs(dateString).format(dateFormat);
+}
+
+// debounce function
+export function debounce(func: Function, delay: number) {
+  let timer: NodeJS.Timeout;
+  return function (...args: any[]) {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      func(...args);
+    }, delay);
+  };
 }

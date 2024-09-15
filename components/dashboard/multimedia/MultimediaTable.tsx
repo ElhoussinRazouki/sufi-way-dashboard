@@ -2,18 +2,31 @@
 
 import { Row } from '@tanstack/react-table';
 import { useRouter } from 'next/navigation';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import generateColumnsDefinition from '../table/columns';
 import { SearchFilter, TableMultiRowAction } from '../table/data-table';
 import { PaginatedDataTable } from '../table/paginated-data-table';
 import { useMultiMedia } from '@/hooks/dashboard/multimedia.hook';
 import { MultimediaDTO } from '@/types/multimedia.types';
 import { Edit, Trash } from 'lucide-react';
-import { formatDate } from '@/utils';
+import { debounce, formatDate } from '@/utils';
+import CustomBadge from '@/components/reusables/CustomBadge';
+import { useModal } from '@/hooks/ui-hooks/modal.hook';
 
 export default function MultimediaTable() {
   const router = useRouter();
-  const { pagination, paginatedMultiMedia, deleteMultimedia } = useMultiMedia();
+
+  const [query, setQuery] = useState('');
+  const { pagination, paginatedMultiMedia, deleteMultimedia } =
+    useMultiMedia(query);
+  const { Modal: ConfirmDeleteModal, open } = useModal();
+
+  const onSearchChangeHandler = useCallback(
+    debounce((value: string) => {
+      setQuery(`&search=${value}`);
+    }, 500),
+    [setQuery]
+  );
 
   const handleDeleteMultimedia = useCallback(
     (groupRow: Row<MultimediaDTO>) => {
@@ -53,11 +66,13 @@ export default function MultimediaTable() {
             )
           },
           {
-            accessorKey: 'author',
+            accessorKey: 'author_id.name',
             title: 'Author',
             enableSorting: false,
             cell: ({ row }) => (
-              <span className="line-clamp-1">{row.original.author || '-'}</span>
+              <span className="text-nowrap">
+                {row.original?.author_id?.name || '-'}
+              </span>
             )
           },
           {
@@ -68,7 +83,16 @@ export default function MultimediaTable() {
               <span className="line-clamp-1">{row.original.url}</span>
             )
           },
-          { accessorKey: 'type', title: 'Type', enableSorting: false },
+          {
+            accessorKey: 'type',
+            title: 'Type',
+            enableSorting: false,
+            cell: ({ row }) => (
+              <CustomBadge type="random" intensity={2}>
+                {row.original.type}
+              </CustomBadge>
+            )
+          },
           {
             accessorKey: 'created_at',
             title: 'Created At',
@@ -114,18 +138,24 @@ export default function MultimediaTable() {
   const nameSearchFilter: SearchFilter = useMemo(
     () => ({
       accessorKey: 'title',
-      placeholder: 'Search by title...'
+      placeholder: 'Search by title...',
+      onChangeHandler: onSearchChangeHandler
     }),
     []
   );
 
   return (
-    <PaginatedDataTable
-      paginatedData={paginatedMultiMedia}
-      pagination={pagination}
-      columns={columns}
-      searchFilter={nameSearchFilter}
-      multiRowActions={multiRowActions}
-    />
+    paginatedMultiMedia && (
+      <>
+        <PaginatedDataTable
+          paginatedData={paginatedMultiMedia}
+          pagination={pagination}
+          columns={columns}
+          searchFilter={nameSearchFilter}
+          multiRowActions={multiRowActions}
+        />
+        <ConfirmDeleteModal />
+      </>
+    )
   );
 }

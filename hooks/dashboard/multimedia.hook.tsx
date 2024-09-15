@@ -8,13 +8,13 @@ import {
   MultimediaPatchDTO
 } from '@/types/multimedia.types';
 
-export function useMultiMedia() {
+export function useMultiMedia(query: string = '') {
   const queryClient = useQueryClient();
   const pagination = usePagination();
 
   const { data, ...rest } = useQuery(
-    ['multimedia_list', pagination.query],
-    () => APIs.multimedia.getMultimediaList(pagination.query),
+    ['multimedia_list', pagination.query + query],
+    () => APIs.multimedia.getMultimediaList(pagination.query + query),
     {
       suspense: true,
       retry: false
@@ -36,11 +36,10 @@ export function useMultiMedia() {
 
   const updateMultiMedia = useCallback(
     async (id: string, data: MultimediaPatchDTO) => {
-      return APIs.multimedia.updateMultimedia(id, data).then((multimedia) => {
-        queryClient.invalidateQueries('multimedia_list');
-        queryClient.invalidateQueries(['multimedia', id]);
-        return multimedia;
-      });
+      await APIs.multimedia.updateMultimedia(id, data);
+      queryClient.invalidateQueries('multimedia_list');
+      queryClient.invalidateQueries(['multimedia', id]);
+      return;
     },
     [queryClient]
   );

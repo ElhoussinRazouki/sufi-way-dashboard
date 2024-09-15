@@ -11,9 +11,7 @@ import {
   DropdownMenuTrigger
 } from '../../ui/dropdown-menu';
 import { TableRowAction } from './data-table';
-import { AlertModal } from '@/components/modal/alert-modal';
 import { MoreHorizontal } from 'lucide-react';
-import { useState } from 'react';
 
 type DataTableRowActionsProps<TData> = {
   row: Row<TData>;
@@ -24,18 +22,8 @@ export function DataTableRowActions<TData>({
   row,
   actions
 }: DataTableRowActionsProps<TData>) {
-  const [open, setOpen] = useState(false);
-
-  const onConfirm = async () => {};
-
   return (
     <>
-      <AlertModal
-        isOpen={open}
-        onClose={() => setOpen(false)}
-        onConfirm={onConfirm}
-        loading={false}
-      />
       <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="h-8 w-8 p-0">

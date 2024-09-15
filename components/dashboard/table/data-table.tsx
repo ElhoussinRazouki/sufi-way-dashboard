@@ -52,6 +52,7 @@ export type TableRowAction<TData> = {
   label: string;
   clickHandler: (row: Row<TData>) => void;
   Icon?: any;
+  isSensitive?: boolean;
 };
 
 // used when multiple rows are selected
