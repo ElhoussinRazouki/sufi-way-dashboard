@@ -7,17 +7,45 @@ import {
   MultimediaDTO,
   MultimediaPatchDTO
 } from '@/types/multimedia.types';
+import { useFilters } from '../filters.hook';
+import { combineFilters } from '@/utils';
 
-export function useMultiMedia(query: string = '') {
+type MultimediaHookFilters = {
+  search?: string;
+  type?: string;
+};
+
+type MultimediaHookProps = {
+  preventFetch?: boolean;
+  initialFilters?: MultimediaHookFilters;
+};
+
+export function useMultiMedia({
+  preventFetch,
+  initialFilters
+}: MultimediaHookProps = {}) {
   const queryClient = useQueryClient();
   const pagination = usePagination();
 
+  const filters = useFilters<MultimediaHookFilters>({
+    filters: {
+      ...(initialFilters || {})
+    },
+    parseOptions: {
+      override: true
+    }
+  });
+
   const { data, ...rest } = useQuery(
-    ['multimedia_list', pagination.query + query],
-    () => APIs.multimedia.getMultimediaList(pagination.query + query),
+    ['multimedia_list', pagination.query + filters.query],
+    () =>
+      APIs.multimedia.getMultimediaList(
+        combineFilters(pagination.query, filters.query)
+      ),
     {
       suspense: true,
-      retry: false
+      retry: false,
+      enabled: !preventFetch
     }
   );
 
@@ -61,6 +89,7 @@ export function useMultiMedia(query: string = '') {
     updateMultiMedia,
     deleteMultimedia,
     pagination,
+    filters,
     ...rest
   };
 }

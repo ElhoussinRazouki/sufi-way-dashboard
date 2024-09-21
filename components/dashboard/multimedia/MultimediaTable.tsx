@@ -2,9 +2,9 @@
 
 import { Row } from '@tanstack/react-table';
 import { useRouter } from 'next/navigation';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 import generateColumnsDefinition from '../table/columns';
-import { SearchFilter, TableMultiRowAction } from '../table/data-table';
+import { TableMultiRowAction } from '../table/data-table';
 import { PaginatedDataTable } from '../table/paginated-data-table';
 import { useMultiMedia } from '@/hooks/dashboard/multimedia.hook';
 import { MultimediaDTO } from '@/types/multimedia.types';
@@ -12,36 +12,70 @@ import { Edit, Trash } from 'lucide-react';
 import { debounce, formatDate } from '@/utils';
 import CustomBadge from '@/components/reusables/CustomBadge';
 import { useModal } from '@/hooks/ui-hooks/modal.hook';
+import { filterElementsType } from '../table/data-table-toolbar';
+import { toast } from '@/components/ui/use-toast';
+import APIs from '@/api';
+import DeleteValidationModal from '@/components/Modals/DeleteConfirmationModal';
 
 export default function MultimediaTable() {
   const router = useRouter();
 
-  const [query, setQuery] = useState('');
-  const { pagination, paginatedMultiMedia, deleteMultimedia } =
-    useMultiMedia(query);
+  const { pagination, paginatedMultiMedia, deleteMultimedia, filters } =
+    useMultiMedia();
   const { Modal: ConfirmDeleteModal, open } = useModal();
-
-  const onSearchChangeHandler = useCallback(
-    debounce((value: string) => {
-      setQuery(`&search=${value}`);
-    }, 500),
-    [setQuery]
-  );
 
   const handleDeleteMultimedia = useCallback(
     (groupRow: Row<MultimediaDTO>) => {
-      const id = groupRow.original._id;
-      deleteMultimedia(id);
+      const decisionHandler = async (decision: boolean) => {
+        if (decision) {
+          const id = groupRow.original._id;
+          try {
+            deleteMultimedia(id);
+            toast({
+              title: 'Multimedia deleted successfully',
+              variant: 'default'
+            });
+          } catch (error) {
+            const errorMessage = APIs.common.handleApiError(error);
+            toast({ title: errorMessage, variant: 'destructive' });
+          }
+        }
+      };
+      open({
+        modal: (props) => (
+          <DeleteValidationModal {...props} decisionHandler={decisionHandler} />
+        )
+      });
     },
-    [deleteMultimedia]
+    [deleteMultimedia, open]
   );
 
   const handleDeleteMultimediaList = useCallback(
     (groupRows: Row<MultimediaDTO>[]) => {
-      const ids = groupRows.map((groupRow) => groupRow.original._id);
-      ids.forEach((id) => deleteMultimedia(id));
+      const decisionHandler = async (decision: boolean) => {
+        if (decision) {
+          const ids = groupRows.map((groupRow) => groupRow.original._id);
+          try {
+            for (const id of ids) {
+              await deleteMultimedia(id);
+            }
+            toast({
+              title: 'Multimedia deleted successfully',
+              variant: 'default'
+            });
+          } catch (error) {
+            const errorMessage = APIs.common.handleApiError(error);
+            toast({ title: errorMessage, variant: 'destructive' });
+          }
+        }
+      };
+      open({
+        modal: (props) => (
+          <DeleteValidationModal {...props} decisionHandler={decisionHandler} />
+        )
+      });
     },
-    [deleteMultimedia]
+    [deleteMultimedia, open]
   );
 
   const handleUpdateMultimedia = useCallback(
@@ -96,7 +130,6 @@ export default function MultimediaTable() {
           {
             accessorKey: 'created_at',
             title: 'Created At',
-            enableSorting: false,
             cell: ({ row }) => (
               <span>
                 {formatDate(row.original.created_at, {
@@ -135,14 +168,27 @@ export default function MultimediaTable() {
     [handleDeleteMultimediaList]
   );
 
-  const nameSearchFilter: SearchFilter = useMemo(
-    () => ({
+  const filterElements: filterElementsType = {
+    searchInput: {
       accessorKey: 'title',
-      placeholder: 'Search by title...',
-      onChangeHandler: onSearchChangeHandler
-    }),
-    []
-  );
+      placeholder: 'Search by the title...'
+    },
+    multiSelectFilters: [
+      {
+        accessorKey: 'type',
+        title: 'Type',
+        options: [
+          { label: 'Video', value: 'video' },
+          { label: 'PDF', value: 'pdf' },
+          { label: 'Audio', value: 'audio' }
+        ]
+      }
+    ]
+  };
+
+  const onTableFilterChange = debounce((newFilters: unknown) => {
+    filters.setFilters(newFilters as any);
+  }, 500);
 
   return (
     paginatedMultiMedia && (
@@ -151,8 +197,9 @@ export default function MultimediaTable() {
           paginatedData={paginatedMultiMedia}
           pagination={pagination}
           columns={columns}
-          searchFilter={nameSearchFilter}
           multiRowActions={multiRowActions}
+          filterElements={filterElements}
+          onFilterChange={onTableFilterChange}
         />
         <ConfirmDeleteModal />
       </>

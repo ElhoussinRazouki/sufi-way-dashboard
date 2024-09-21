@@ -103,11 +103,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
-      <DataTableToolbar
-        table={table}
-        multiRowActions={multiRowActions}
-        searchFilter={searchFilter}
-      />
+      <DataTableToolbar table={table} multiRowActions={multiRowActions} />
       <div className="rounded-md border">
         <Table>
           <TableHeader>

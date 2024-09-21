@@ -1,6 +1,6 @@
 // Create a common API function here
 
-import { AxiosRequestConfig } from 'axios';
+import { AxiosError, AxiosRequestConfig, isAxiosError } from 'axios';
 import axiosApi from './axios.api';
 import {
   AttachmentDto,
@@ -69,10 +69,21 @@ async function uploadAttachment(
   return response.data.data;
 }
 
+function handleApiError(error: AxiosError | any) {
+  if (isAxiosError(error)) {
+    return error.response?.data?.message;
+  }
+  if (error instanceof Error) {
+    return error.message;
+  }
+  return 'something went wrong';
+}
+
 const CommonApi = {
   //... extend with other APIs here
   uploadFile,
-  uploadAttachment
+  uploadAttachment,
+  handleApiError
 };
 
 export default CommonApi;

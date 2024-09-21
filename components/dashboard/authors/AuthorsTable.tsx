@@ -125,15 +125,6 @@ export default function AuthorsTable() {
     [handleRemoveList]
   );
 
-  const nameSearchFilter: SearchFilter = useMemo(
-    () => ({
-      accessorKey: 'name',
-      placeholder: 'Search by name...',
-      onChangeHandler: onSearchChangeHandler
-    }),
-    []
-  );
-
   return (
     <>
       {pagination && (
@@ -141,7 +132,6 @@ export default function AuthorsTable() {
           paginatedData={paginateList}
           pagination={pagination}
           columns={columns}
-          searchFilter={nameSearchFilter}
           multiRowActions={multiRowActions}
         />
       )}

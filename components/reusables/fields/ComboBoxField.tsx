@@ -1,5 +1,3 @@
-'use client';
-
 import { Check, ChevronsUpDown } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
@@ -19,18 +17,24 @@ import {
   PopoverTrigger
 } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
-import { useField } from 'formik';
+import { ErrorMessage, useField } from 'formik';
+import FormError from '../FormError';
+import Help from '../Help';
+
+type ComboBoxOption<T> = { label: string; value: T };
 
 export type ComboBoxFieldProps<T> = {
   name: string;
-  availableItems: { label: string; value: T }[];
+  availableItems: ComboBoxOption<T>[];
   label?: string;
   className?: string;
   required?: boolean;
-  onChange?: (search: string) => void;
   searchPlaceholder?: string;
   selectPlaceholder?: string;
   noItemsFoundMessage?: string;
+  onChange?: (value: T, selectedOption: ComboBoxOption<T>) => void;
+  onSearchChange?: (search: string) => void;
+  help?: string;
 };
 
 export default function ComboboxField<T extends string | number | null>({
@@ -39,22 +43,37 @@ export default function ComboboxField<T extends string | number | null>({
   label,
   className,
   required,
-  onChange,
   searchPlaceholder = 'Search Items...',
   selectPlaceholder = 'Select items...',
-  noItemsFoundMessage = 'No items found.'
+  noItemsFoundMessage = 'No items found.',
+  onChange,
+  onSearchChange,
+  help
 }: ComboBoxFieldProps<T>) {
   const [field, _, helpers] = useField<T>(name);
   const [open, setOpen] = useState(false);
-
+  const [items, setItems] = useState<ComboBoxOption<T>[]>(availableItems || []);
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
-    if (onChange) {
-      // call the on change
-      onChange(searchQuery);
+    if (onSearchChange) {
+      onSearchChange(searchQuery);
     }
-  }, [availableItems, onChange, searchQuery]);
+
+    let updatedItems = availableItems.filter((item) =>
+      item.label.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    // If required, add an empty option at the start
+    if (!required) {
+      updatedItems = [
+        { label: 'Select no item', value: '' as T },
+        ...updatedItems
+      ];
+    }
+
+    setItems(updatedItems);
+  }, [availableItems, searchQuery, onSearchChange, required]);
 
   return (
     <div className={cn(`mb-2 flex flex-col gap-1 text-primary ${className}`)}>
@@ -70,15 +89,15 @@ export default function ComboboxField<T extends string | number | null>({
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="justify-between"
+            className="w-full justify-between"
           >
             {field.value
-              ? availableItems.find((item) => item.value === field.value)?.label
+              ? items.find((item) => item.value === field.value)?.label
               : selectPlaceholder}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className=" p-0">
+        <PopoverContent className="w-full p-0">
           <Command shouldFilter={false}>
             <CommandInput
               placeholder={searchPlaceholder}
@@ -88,7 +107,7 @@ export default function ComboboxField<T extends string | number | null>({
             <CommandList>
               <CommandEmpty>{noItemsFoundMessage}</CommandEmpty>
               <CommandGroup>
-                {availableItems.map((item) => {
+                {items.map((item) => {
                   return (
                     <CommandItem
                       key={item.label}
@@ -96,9 +115,11 @@ export default function ComboboxField<T extends string | number | null>({
                       onSelect={(currentValue) => {
                         setOpen(false);
                         if (typeof item.value === 'number') {
-                          return helpers.setValue(parseInt(currentValue) as T);
+                          helpers.setValue(parseInt(currentValue) as T);
+                        } else {
+                          helpers.setValue(currentValue as T);
                         }
-                        return helpers.setValue(currentValue as T);
+                        onChange?.(currentValue as T, item);
                       }}
                     >
                       <Check
@@ -118,6 +139,8 @@ export default function ComboboxField<T extends string | number | null>({
           </Command>
         </PopoverContent>
       </Popover>
+      {help && <Help>{help}</Help>}
+      <ErrorMessage name={name} component={FormError} />
     </div>
   );
 }

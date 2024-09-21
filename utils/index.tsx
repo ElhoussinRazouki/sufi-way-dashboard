@@ -2,6 +2,7 @@ import { AuthTokenDto, UserDto } from '@/types/auth.types';
 import { jwtDecode } from 'jwt-decode';
 import dayjs from 'dayjs';
 import { RANDOM_COLORS } from '@/constants/data';
+import { ColumnFiltersState } from '@tanstack/react-table';
 
 const AUTH_TOKEN_NAME = 'auth' as const;
 
@@ -165,4 +166,63 @@ export function debounce(func: Function, delay: number) {
       func(...args);
     }, delay);
   };
+}
+
+export function parseFilter(
+  filters: Record<string, unknown>,
+  options: {
+    skipNull?: boolean;
+    skipEmpty?: boolean;
+    skipUndefined?: boolean;
+    override: boolean;
+  } = {
+    skipNull: true,
+    skipEmpty: true,
+    skipUndefined: true,
+    override: false
+  }
+) {
+  // Convert the obj object to query string
+  const query = Object.entries(filters)
+    .map(([key, value]) => {
+      // Skip null values
+      if (options.skipNull && value === null) {
+        return null;
+      }
+
+      // Skip empty values
+      if (options.skipEmpty && value === '') {
+        return null;
+      }
+
+      // Skip undefined values
+      if (options.skipUndefined && value === undefined) {
+        return null;
+      }
+
+      return `${key}=${value}`;
+    })
+    .filter((item) => !!item) // Remove null values
+    .join('&');
+
+  return query;
+}
+
+export function combineFilters(query1: string, query2: string) {
+  if (query1 && query2) return `${query1}&${query2}`;
+  if (query1 && !query2) return query1;
+
+  return query2;
+}
+
+export function formatTableFilters(filters: ColumnFiltersState) {
+  const formattedFilters: any = {};
+  Object.entries(filters).forEach(([value, filter]) => {
+    if (Array.isArray(filter.value)) {
+      formattedFilters[filter.id] = filter.value.join(',');
+    } else {
+      formattedFilters[filter.id] = filter.value;
+    }
+  });
+  return formattedFilters;
 }

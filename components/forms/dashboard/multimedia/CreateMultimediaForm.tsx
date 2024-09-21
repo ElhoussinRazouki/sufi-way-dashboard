@@ -58,10 +58,10 @@ export default function CreateMultimediaForm() {
     <FormikProvider value={formik}>
       <form onSubmit={formik.handleSubmit}>
         <div className="flex gap-2">
-          <InputField name="title" className="w-full" label="Title" />
-          <AuthorsComboBoxField label="Author" className="w-full" />
+          <InputField name="title" className="w-full" label="Title" required />
+          <AuthorsComboBoxField label="Author" className="w-full" required />
         </div>
-        <TextArea name="description" label="Description" />
+        <TextArea name="description" label="Description" required />
         <SelectField
           name="type"
           label="Type"
@@ -69,17 +69,18 @@ export default function CreateMultimediaForm() {
             value: type,
             label: type
           }))}
+          required
         />
         <div className="my-4 flex gap-4">
           <ImageUploaderField name="thumbnail" label="Thumbnail" />
           {formik.values.type === 'audio' && (
-            <AudioUploaderField name="url" label="Audio" />
+            <AudioUploaderField name="url" label="Audio" required />
           )}
           {formik.values.type === 'video' && (
-            <VideoUploaderField name="url" label="Video" />
+            <VideoUploaderField name="url" label="Video" required />
           )}
           {formik.values.type === 'pdf' && (
-            <PdfUploaderField name="url" label="Pdf Document" />
+            <PdfUploaderField name="url" label="Pdf Document" required />
           )}
         </div>
         <div className="my-4 flex justify-end">

@@ -1,7 +1,6 @@
 import ComboboxField, {
   ComboBoxFieldProps
 } from '@/components/reusables/fields/ComboBoxField';
-import { useUrlQuery } from '@/hooks';
 import { useAuthors } from '@/hooks/dashboard/authors.hook';
 import { AuthorDTO } from '@/types/multimedia.types';
 import { debounce } from '@/utils';
@@ -18,6 +17,7 @@ export default function AuthorsComboBoxField({
   const [query, setQuery] = useState('');
   const { list } = useAuthors(query);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const onChangeHandler = useCallback(
     debounce((value: string) => {
       setQuery(`&search=${value}`);

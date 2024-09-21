@@ -6,60 +6,68 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Cross2Icon } from '@radix-ui/react-icons';
 import { SearchFilter, TableMultiRowAction } from './data-table';
+import { DataTableFacetedFilter } from './data-table-faceted-filter';
 import { DataTableMultiRowActions } from './data-table-multi-row-actions';
 import { DataTableViewOptions } from './data-table-view-options';
-import { cn } from '@/lib/utils';
+
+type MultiSelectFilter = {
+  accessorKey: string;
+  title: string;
+  options: {
+    label: string;
+    value: string;
+    Icon?: React.ComponentType<{ className?: string }>;
+  }[];
+};
+
+export type filterElementsType = {
+  searchInput?: SearchFilter;
+  multiSelectFilters?: MultiSelectFilter[];
+};
 
 type DataTableToolbarProps<TData> = {
   table: Table<TData>;
   multiRowActions?: TableMultiRowAction<TData>[];
-  searchFilter?: SearchFilter;
-  className?: string;
+  filterElements?: filterElementsType;
 };
 
 export function DataTableToolbar<TData>({
   table,
   multiRowActions = [],
-  searchFilter,
-  className
+  filterElements = {}
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0;
 
   return (
-    <div className={cn('flex items-center justify-between', className)}>
+    <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
-        {searchFilter &&
-          (searchFilter.onChangeHandler ? (
-            <Input
-              placeholder={
-                searchFilter.placeholder ||
-                `Search by ${searchFilter.accessorKey}...`
-              }
-              onChange={(event) =>
-                searchFilter.onChangeHandler?.(event.target.value)
-              }
-              className="h-8 w-[150px] lg:w-[250px]"
-            />
-          ) : (
-            <Input
-              placeholder={
-                searchFilter?.placeholder ||
-                `Search by ${searchFilter?.accessorKey}...`
-              }
-              value={
-                (table
-                  .getColumn(searchFilter?.accessorKey || '')
-                  ?.getFilterValue() as string) || ''
-              }
-              onChange={(event) =>
-                table
-                  .getColumn(searchFilter?.accessorKey || '')
-                  ?.setFilterValue(event.target.value)
-              }
-              className="h-8 w-[150px] lg:w-[250px]"
-            />
-          ))}
-
+        {filterElements?.searchInput && (
+          <Input
+            placeholder={
+              filterElements?.searchInput?.placeholder ||
+              `Search by ${filterElements?.searchInput?.accessorKey}...`
+            }
+            value={
+              (table
+                .getColumn(filterElements?.searchInput?.accessorKey || '')
+                ?.getFilterValue() as string) || ''
+            }
+            onChange={(event) =>
+              table
+                .getColumn(filterElements?.searchInput?.accessorKey || '')
+                ?.setFilterValue(event.target.value)
+            }
+            className="h-8 w-[150px] lg:w-[250px]"
+          />
+        )}
+        {filterElements?.multiSelectFilters?.map((filter) => (
+          <DataTableFacetedFilter
+            key={filter.accessorKey}
+            column={table.getColumn(filter.accessorKey)}
+            title={filter.title}
+            options={filter.options}
+          />
+        ))}
         {isFiltered && (
           <Button
             variant="ghost"

@@ -15,7 +15,6 @@ import {
 } from '@tanstack/react-table';
 import * as React from 'react';
 
-import { cn } from '@/lib/utils';
 import {
   Table,
   TableBody,
@@ -26,9 +25,10 @@ import {
 } from '../../ui/table';
 import { DataTableProps } from './data-table';
 import { DataTablePagination } from './data-table-pagination';
-import { DataTableToolbar } from './data-table-toolbar';
+import { DataTableToolbar, filterElementsType } from './data-table-toolbar';
 import { PaginatedResponseDto } from '@/types';
 import { ScrollBar, ScrollArea } from '@/components/ui/scroll-area';
+import { formatTableFilters } from '@/utils';
 
 export type Pagination = {
   page: number;
@@ -44,6 +44,8 @@ export type PaginatedDataTableProps<TData, TValue> = Omit<
 > & {
   paginatedData: PaginatedResponseDto<TData>;
   pagination?: Pagination;
+  filterElements?: filterElementsType;
+  onFilterChange?: (filters: unknown) => void; // figure out typing
 };
 
 export function PaginatedDataTable<TData, TValue>({
@@ -55,7 +57,9 @@ export function PaginatedDataTable<TData, TValue>({
   className,
   tableRowClassName,
   tableCellClassName,
-  onRowClick
+  onRowClick,
+  filterElements,
+  onFilterChange
 }: PaginatedDataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
@@ -86,8 +90,42 @@ export function PaginatedDataTable<TData, TValue>({
     },
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
+    onSortingChange: (updater) => {
+      const newSorting =
+        typeof updater === 'function' ? updater(sorting) : updater;
+      setSorting(newSorting);
+
+      // Call parent handler if it exists
+      if (onFilterChange) {
+        const newSort = {
+          sort: newSorting.length
+            ? newSorting[0].desc
+              ? 'desc'
+              : 'asc'
+            : undefined
+        };
+
+        if (newSort.sort) {
+          onFilterChange({
+            ...formatTableFilters(columnFilters),
+            ...newSort
+          });
+        } else {
+          onFilterChange(formatTableFilters(columnFilters));
+        }
+      }
+    },
+    onColumnFiltersChange: (updater) => {
+      const newFilters =
+        typeof updater === 'function' ? updater(columnFilters) : updater;
+
+      if (newFilters) {
+        setColumnFilters(newFilters);
+        if (onFilterChange) {
+          onFilterChange(formatTableFilters(newFilters));
+        }
+      }
+    },
     onColumnVisibilityChange: setColumnVisibility,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
@@ -116,10 +154,9 @@ export function PaginatedDataTable<TData, TValue>({
       <DataTableToolbar
         table={table}
         multiRowActions={multiRowActions}
-        searchFilter={searchFilter}
-        className="w-full"
+        filterElements={filterElements}
       />
-      <ScrollArea className="h-[calc(80vh-220px)] max-w-[90vw] rounded-md border md:max-w-[95vw]">
+      <ScrollArea className="sm:w[98vw] h-[calc(80vh-220px)] w-[90vw] rounded-md border md:w-auto">
         <Table className="relative">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
