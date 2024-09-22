@@ -50,7 +50,11 @@ export default function LoginForm({ className }: { className?: string }) {
       {({ values, handleChange, handleBlur, handleSubmit }) => (
         <form onSubmit={handleSubmit}>
           <div className={cn('grid gap-4', className)}>
-            <InputField name="email" label="" placeholder="e.g. ahmed@ux.ai" />
+            <InputField
+              name="email"
+              label="Email"
+              placeholder="e.g. ahmed@ux.ai"
+            />
             <SensitiveField
               name="password"
               label="Password"

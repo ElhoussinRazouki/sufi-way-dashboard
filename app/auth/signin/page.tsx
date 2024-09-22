@@ -4,7 +4,8 @@ import Link from 'next/link';
 import UserAuthForm from '@/components/forms/user-auth-form';
 import { useUser } from '@/hooks/auth.hook';
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
+
+const background = '/images/background.jpg';
 
 export default function AuthenticationPage() {
   const { isAuthenticated } = useUser();
@@ -32,27 +33,14 @@ export default function AuthenticationPage() {
             </p>
           </div>
           <UserAuthForm />
-          <p className="px-8 text-center text-sm text-muted-foreground">
-            By signing in, you acknowledge that you agree to the{' '}
-            <Link
-              href="/terms"
-              className="underline underline-offset-4 hover:text-primary"
-            >
-              Terms of Service
-            </Link>{' '}
-            and{' '}
-            <Link
-              href="/privacy"
-              className="underline underline-offset-4 hover:text-primary"
-            >
-              Privacy Policy
-            </Link>
-            .
-          </p>
         </div>
       </div>
       <div className="imagContainer relative hidden h-full overflow-hidden bg-muted text-white dark:border-r lg:block">
-       
+        <img
+          src={background}
+          alt=""
+          className="absolute left-0 top-0 h-full w-full object-cover "
+        />
       </div>
     </div>
   );
