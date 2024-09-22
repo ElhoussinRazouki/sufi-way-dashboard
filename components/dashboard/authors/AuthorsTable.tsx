@@ -8,20 +8,13 @@ import { SearchFilter, TableMultiRowAction } from '../table/data-table';
 import { PaginatedDataTable } from '../table/paginated-data-table';
 import { AuthorDTO } from '@/types/multimedia.types';
 import { Edit, Trash } from 'lucide-react';
-import { debounce, formatDate } from '@/utils';
+import { formatDate } from '@/utils';
 import { useAuthors } from '@/hooks/dashboard/authors.hook';
 import { Avatar } from '@/components/reusables';
 
 export default function AuthorsTable() {
   const router = useRouter();
   const [query, setQuery] = useState('');
-
-  const onSearchChangeHandler = useCallback(
-    debounce((value: string) => {
-      setQuery(`&search=${value}`);
-    }, 500),
-    [setQuery]
-  );
 
   const { pagination, paginateList, remove } = useAuthors(query);
 

@@ -11,71 +11,50 @@ import { MultimediaDTO } from '@/types/multimedia.types';
 import { Edit, Trash } from 'lucide-react';
 import { debounce, formatDate } from '@/utils';
 import CustomBadge from '@/components/reusables/CustomBadge';
-import { useModal } from '@/hooks/ui-hooks/modal.hook';
 import { filterElementsType } from '../table/data-table-toolbar';
 import { toast } from '@/components/ui/use-toast';
 import APIs from '@/api';
-import DeleteValidationModal from '@/components/Modals/DeleteConfirmationModal';
 
 export default function MultimediaTable() {
   const router = useRouter();
 
   const { pagination, paginatedMultiMedia, deleteMultimedia, filters } =
     useMultiMedia();
-  const { Modal: ConfirmDeleteModal, open } = useModal();
 
   const handleDeleteMultimedia = useCallback(
-    (groupRow: Row<MultimediaDTO>) => {
-      const decisionHandler = async (decision: boolean) => {
-        if (decision) {
-          const id = groupRow.original._id;
-          try {
-            deleteMultimedia(id);
-            toast({
-              title: 'Multimedia deleted successfully',
-              variant: 'default'
-            });
-          } catch (error) {
-            const errorMessage = APIs.common.handleApiError(error);
-            toast({ title: errorMessage, variant: 'destructive' });
-          }
-        }
-      };
-      open({
-        modal: (props) => (
-          <DeleteValidationModal {...props} decisionHandler={decisionHandler} />
-        )
-      });
+    async (groupRow: Row<MultimediaDTO>) => {
+      const id = groupRow.original._id;
+      try {
+        await deleteMultimedia(id);
+        toast({
+          title: 'Multimedia deleted successfully',
+          variant: 'default'
+        });
+      } catch (error) {
+        const errorMessage = APIs.common.handleApiError(error);
+        toast({ title: errorMessage, variant: 'destructive' });
+      }
     },
-    [deleteMultimedia, open]
+    [deleteMultimedia]
   );
 
   const handleDeleteMultimediaList = useCallback(
-    (groupRows: Row<MultimediaDTO>[]) => {
-      const decisionHandler = async (decision: boolean) => {
-        if (decision) {
-          const ids = groupRows.map((groupRow) => groupRow.original._id);
-          try {
-            for (const id of ids) {
-              await deleteMultimedia(id);
-            }
-            toast({
-              title: 'Multimedia deleted successfully',
-              variant: 'default'
-            });
-          } catch (error) {
-            const errorMessage = APIs.common.handleApiError(error);
-            toast({ title: errorMessage, variant: 'destructive' });
-          }
+    async (groupRows: Row<MultimediaDTO>[]) => {
+      const ids = groupRows.map((groupRow) => groupRow.original._id);
+      try {
+        for (const id of ids) {
+          await deleteMultimedia(id);
         }
-      };
-      open({
-        modal: (props) => (
-          <DeleteValidationModal {...props} decisionHandler={decisionHandler} />
-        )
-      });
+        toast({
+          title: 'Multimedia deleted successfully',
+          variant: 'default'
+        });
+      } catch (error) {
+        const errorMessage = APIs.common.handleApiError(error);
+        toast({ title: errorMessage, variant: 'destructive' });
+      }
     },
-    [deleteMultimedia, open]
+    [deleteMultimedia]
   );
 
   const handleUpdateMultimedia = useCallback(
@@ -155,7 +134,12 @@ export default function MultimediaTable() {
         ],
         actions: [
           { label: 'Update', clickHandler: handleUpdateMultimedia, Icon: Edit },
-          { label: 'Delete', clickHandler: handleDeleteMultimedia, Icon: Trash }
+          {
+            label: 'Delete',
+            clickHandler: handleDeleteMultimedia,
+            Icon: Trash,
+            isSensitive: true
+          }
         ]
       }),
     [handleDeleteMultimedia, handleUpdateMultimedia]
@@ -201,7 +185,6 @@ export default function MultimediaTable() {
           filterElements={filterElements}
           onFilterChange={onTableFilterChange}
         />
-        <ConfirmDeleteModal />
       </>
     )
   );
