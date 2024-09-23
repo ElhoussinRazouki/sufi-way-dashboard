@@ -20,7 +20,7 @@ export default function Sidebar({ className }: SidebarProps) {
   };
 
   return (
-    <div className="relative">
+    <div className="relative hidden md:block">
       {/* Background image behind the sidebar */}
       <div
         style={{
@@ -33,7 +33,7 @@ export default function Sidebar({ className }: SidebarProps) {
       {/* Sidebar with semi-transparent background */}
       <aside
         className={cn(
-          `relative z-10 h-screen flex-none border-r bg-white/90 transition-[width] duration-500 dark:bg-black/90 md:block`,
+          `relative z-10 h-screen flex-none border-r bg-white/90 transition-[width] duration-500 dark:bg-black/90 `,
           !isMinimized ? 'w-72' : 'w-[72px]',
           className
         )}
