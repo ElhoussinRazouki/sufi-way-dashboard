@@ -105,7 +105,7 @@ export default function VideoUploaderField({
             )}
             onUpload={handleOnUploadFinish}
             accept={getAcceptedFormats('video')}
-            maxSize={1024 * 1024 * 1}
+            maxSize={1024 * 1024 * 100}
             onError={(error) =>
               toast({
                 description:
