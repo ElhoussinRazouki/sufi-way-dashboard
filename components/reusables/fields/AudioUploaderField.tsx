@@ -99,6 +99,7 @@ export default function AudioUploaderField({
             )}
             onUpload={handleOnUploadFinish}
             accept={getAcceptedFormats('audio')}
+            maxSize={1024 * 1024 * 100}
             onError={(error) =>
               toast({ description: error.toString(), variant: 'destructive' })
             }
