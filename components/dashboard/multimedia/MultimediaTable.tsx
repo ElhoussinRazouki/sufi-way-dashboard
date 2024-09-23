@@ -170,10 +170,6 @@ export default function MultimediaTable() {
     ]
   };
 
-  const onTableFilterChange = debounce((newFilters: unknown) => {
-    filters.setFilters(newFilters as any);
-  }, 500);
-
   return (
     paginatedMultiMedia && (
       <>
@@ -183,7 +179,7 @@ export default function MultimediaTable() {
           columns={columns}
           multiRowActions={multiRowActions}
           filterElements={filterElements}
-          onFilterChange={onTableFilterChange}
+          onFilterChange={debounce(filters.setFilters, 500)}
         />
       </>
     )

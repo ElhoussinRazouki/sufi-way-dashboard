@@ -13,6 +13,7 @@ import { combineFilters } from '@/utils';
 type MultimediaHookFilters = {
   search?: string;
   type?: string;
+  sort?: 'asc' | 'desc';
 };
 
 type MultimediaHookProps = {

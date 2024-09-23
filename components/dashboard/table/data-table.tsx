@@ -60,6 +60,7 @@ export type TableMultiRowAction<TData> = {
   label: string;
   clickHandler: (rows: Row<TData>[]) => void;
   Icon?: any;
+  isSensitive?: boolean;
 };
 
 export function DataTable<TData, TValue>({

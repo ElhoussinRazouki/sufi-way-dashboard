@@ -2,34 +2,34 @@
 
 import { Row } from '@tanstack/react-table';
 import { useRouter } from 'next/navigation';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 import generateColumnsDefinition from '../table/columns';
-import { SearchFilter, TableMultiRowAction } from '../table/data-table';
+import { TableMultiRowAction } from '../table/data-table';
 import { PaginatedDataTable } from '../table/paginated-data-table';
 import { AuthorDTO } from '@/types/multimedia.types';
 import { Edit, Trash } from 'lucide-react';
-import { formatDate } from '@/utils';
-import { useAuthors } from '@/hooks/dashboard/authors.hook';
+import { debounce, formatDate } from '@/utils';
+import { AuthorHookFilters, useAuthors } from '@/hooks/dashboard/authors.hook';
 import { Avatar } from '@/components/reusables';
+import { filterElementsType } from '../table/data-table-toolbar';
 
 export default function AuthorsTable() {
   const router = useRouter();
-  const [query, setQuery] = useState('');
 
-  const { pagination, paginateList, remove } = useAuthors(query);
+  const { pagination, paginateList, remove, filters } = useAuthors();
 
   const handleRemoveRecord = useCallback(
     (groupRow: Row<AuthorDTO>) => {
-      const id = groupRow.original._id;
-      remove(id);
+      // const id = groupRow.original._id;
+      // remove(id);
     },
     [remove]
   );
 
   const handleRemoveList = useCallback(
     (groupRows: Row<AuthorDTO>[]) => {
-      const ids = groupRows.map((groupRow) => groupRow.original._id);
-      ids.forEach((id) => remove(id));
+      // const ids = groupRows.map((groupRow) => groupRow.original._id);
+      // ids.forEach((id) => remove(id));
     },
     [remove]
   );
@@ -81,7 +81,6 @@ export default function AuthorsTable() {
           {
             accessorKey: 'created_at',
             title: 'Created At',
-            enableSorting: false,
             cell: ({ row }) => (
               <span className="text-nowrap">
                 {formatDate(row.original.created_at, {
@@ -107,16 +106,35 @@ export default function AuthorsTable() {
         ],
         actions: [
           { label: 'Update', clickHandler: handleUpdate, Icon: Edit },
-          { label: 'Delete', clickHandler: handleRemoveRecord, Icon: Trash }
+          {
+            label: 'Delete',
+            clickHandler: handleRemoveRecord,
+            Icon: Trash,
+            isSensitive: true
+          }
         ]
       }),
     [handleRemoveRecord, handleUpdate]
   );
 
   const multiRowActions: TableMultiRowAction<AuthorDTO>[] = useMemo(
-    () => [{ label: 'Delete', clickHandler: handleRemoveList, Icon: Trash }],
+    () => [
+      {
+        label: 'Delete',
+        clickHandler: handleRemoveList,
+        Icon: Trash,
+        isSensitive: true
+      }
+    ],
     [handleRemoveList]
   );
+
+  const filterElements: filterElementsType = {
+    searchInput: {
+      accessorKey: 'name',
+      placeholder: 'Search by the name...'
+    }
+  };
 
   return (
     <>
@@ -126,6 +144,8 @@ export default function AuthorsTable() {
           pagination={pagination}
           columns={columns}
           multiRowActions={multiRowActions}
+          filterElements={filterElements}
+          onFilterChange={debounce(filters.setFilters, 500)}
         />
       )}
     </>

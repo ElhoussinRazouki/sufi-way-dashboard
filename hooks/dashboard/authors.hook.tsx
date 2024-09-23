@@ -7,14 +7,38 @@ import {
   AuthorDTO,
   AuthorPatchDTO
 } from '@/types/multimedia.types';
+import { useFilters } from '../filters.hook';
+import { combineFilters } from '@/utils';
 
-export function useAuthors(query: string = '') {
+export type AuthorHookFilters = {
+  search?: string;
+  sort?: 'asc' | 'desc';
+};
+
+export type AuthorHookProps = {
+  preventFetch?: boolean;
+  initialFilters?: AuthorHookFilters;
+};
+
+export function useAuthors({
+  initialFilters,
+  preventFetch
+}: AuthorHookProps = {}) {
   const queryClient = useQueryClient();
   const pagination = usePagination();
 
+  const filters = useFilters<AuthorHookFilters>({
+    filters: {
+      ...(initialFilters || {})
+    },
+    parseOptions: {
+      override: true
+    }
+  });
+
   const { data, ...rest } = useQuery(
-    ['authors_list', pagination.query + query],
-    () => APIs.authors.list(pagination.query + query),
+    ['authors_list', pagination.query + filters.query],
+    () => APIs.authors.list(combineFilters(pagination.query, filters.query)),
     {
       suspense: true,
       retry: false
@@ -62,7 +86,8 @@ export function useAuthors(query: string = '') {
     create,
     update,
     remove,
-    pagination
+    pagination,
+    filters
   };
 }
 
