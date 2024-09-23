@@ -11,7 +11,7 @@ import { useFilters } from '../filters.hook';
 import { combineFilters } from '@/utils';
 
 type MultimediaHookFilters = {
-  search?: string;
+  title?: string;
   type?: string;
   sort?: 'asc' | 'desc';
 };

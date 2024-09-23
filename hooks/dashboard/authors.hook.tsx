@@ -11,7 +11,7 @@ import { useFilters } from '../filters.hook';
 import { combineFilters } from '@/utils';
 
 export type AuthorHookFilters = {
-  search?: string;
+  name?: string;
   sort?: 'asc' | 'desc';
 };
 

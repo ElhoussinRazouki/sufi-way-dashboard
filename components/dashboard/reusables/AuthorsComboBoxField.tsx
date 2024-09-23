@@ -14,15 +14,14 @@ export default function AuthorsComboBoxField({
   defaultAuthor,
   ...props
 }: AuthorsComboBoxFieldProps) {
-  const [query, setQuery] = useState('');
-  const { list } = useAuthors(query);
+  const { list, filters } = useAuthors();
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const onChangeHandler = useCallback(
     debounce((value: string) => {
-      setQuery(`&search=${value}`);
+      filters.setFilters({ name: value });
     }, 500),
-    [setQuery]
+    []
   );
 
   const items = [];
