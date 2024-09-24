@@ -1,12 +1,14 @@
 'use client';
-import { useEffect, useState } from 'react';
+
+import { useCallback, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Modal } from '@/components/ui/modal';
+import LoadingSection from '../reusables/LoadingSection';
 
 interface AlertModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onConfirm: () => void;
+  onConfirm: () => Promise<void>;
 }
 
 export const AlertModal: React.FC<AlertModalProps> = ({
@@ -14,15 +16,14 @@ export const AlertModal: React.FC<AlertModalProps> = ({
   onClose,
   onConfirm
 }) => {
-  const [isMounted, setIsMounted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  if (!isMounted) {
-    return null;
-  }
+  const handleConfirm = useCallback(async () => {
+    setIsLoading(true);
+    await onConfirm();
+    setIsLoading(false);
+    onClose();
+  }, [onClose, onConfirm]);
 
   return (
     <Modal
@@ -35,8 +36,8 @@ export const AlertModal: React.FC<AlertModalProps> = ({
         <Button variant="outline" onClick={onClose}>
           Cancel
         </Button>
-        <Button variant="destructive" onClick={onConfirm}>
-          Continue
+        <Button variant="destructive" onClick={handleConfirm}>
+          {isLoading ? <LoadingSection /> : 'Continue'}
         </Button>
       </div>
     </Modal>

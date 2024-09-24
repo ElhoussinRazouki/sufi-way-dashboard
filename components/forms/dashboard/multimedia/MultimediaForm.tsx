@@ -19,6 +19,7 @@ import ImageUploaderField from '@/components/reusables/fields/ImageUploaderField
 import AudioUploaderField from '@/components/reusables/fields/AudioUploaderField';
 import VideoUploaderField from '@/components/reusables/fields/VideoUploaderField';
 import PdfUploaderField from '@/components/reusables/fields/PdfUploaderField';
+import APIs from '@/api';
 
 const UpdateMultimediaSchema = yup.object().shape({
   title: yup.string().required(),
@@ -63,8 +64,8 @@ export default function UpdateMultimediaForm({
           });
         });
       } catch (err) {
-        console.error(err);
-        toast({ title: 'Error updating multimedia', variant: 'destructive' });
+        const message = APIs.common.handleApiError(err);
+        toast({ title: message, variant: 'destructive' });
       }
     }
   });

@@ -26,14 +26,14 @@ export function DataTableRowActions<TData>({
 }: DataTableRowActionsProps<TData>) {
   const [openModal, setOpenModal] = useState({
     open: false,
-    onConfirm: () => {}
+    onConfirm: async () => {}
   });
 
   return (
     <>
       <AlertModal
         isOpen={openModal.open}
-        onClose={() => setOpenModal({ open: false, onConfirm: () => {} })}
+        onClose={() => setOpenModal({ open: false, onConfirm: async () => {} })}
         onConfirm={openModal.onConfirm}
       />
       <DropdownMenu modal={false}>
@@ -59,7 +59,7 @@ export function DataTableRowActions<TData>({
                 onClick={() =>
                   setOpenModal({
                     open: true,
-                    onConfirm: () => clickHandler(row)
+                    onConfirm: async () => await clickHandler(row)
                   })
                 }
                 key={label}

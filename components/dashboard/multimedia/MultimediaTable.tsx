@@ -22,8 +22,8 @@ export default function MultimediaTable() {
     useMultiMedia();
 
   const handleDeleteMultimedia = useCallback(
-    async (groupRow: Row<MultimediaDTO>) => {
-      const id = groupRow.original._id;
+    async (row: Row<MultimediaDTO>) => {
+      const id = row.original._id;
       try {
         await deleteMultimedia(id);
         toast({
@@ -39,8 +39,8 @@ export default function MultimediaTable() {
   );
 
   const handleDeleteMultimediaList = useCallback(
-    async (groupRows: Row<MultimediaDTO>[]) => {
-      const ids = groupRows.map((groupRow) => groupRow.original._id);
+    async (rows: Row<MultimediaDTO>[]) => {
+      const ids = rows.map((row) => row.original._id);
       try {
         for (const id of ids) {
           await deleteMultimedia(id);
@@ -58,8 +58,8 @@ export default function MultimediaTable() {
   );
 
   const handleUpdateMultimedia = useCallback(
-    (groupRow: Row<MultimediaDTO>) => {
-      const id = groupRow.original._id;
+    async (row: Row<MultimediaDTO>) => {
+      const id = row.original._id;
       router.push(`/dashboard/multimedia/${id}/`);
     },
     [router]

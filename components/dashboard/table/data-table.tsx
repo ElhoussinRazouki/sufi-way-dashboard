@@ -50,7 +50,7 @@ export type DataTableProps<TData, TValue> = {
 // used for one row actions
 export type TableRowAction<TData> = {
   label: string;
-  clickHandler: (row: Row<TData>) => void;
+  clickHandler: (row: Row<TData>) => Promise<void>;
   Icon?: any;
   isSensitive?: boolean;
 };

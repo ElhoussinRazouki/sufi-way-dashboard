@@ -9,33 +9,47 @@ import { PaginatedDataTable } from '../table/paginated-data-table';
 import { AuthorDTO } from '@/types/multimedia.types';
 import { Edit, Trash } from 'lucide-react';
 import { debounce, formatDate } from '@/utils';
-import { AuthorHookFilters, useAuthors } from '@/hooks/dashboard/authors.hook';
+import { useAuthors } from '@/hooks/dashboard/authors.hook';
 import { Avatar } from '@/components/reusables';
 import { filterElementsType } from '../table/data-table-toolbar';
+import { useToast } from '@/components/ui/use-toast';
+import APIs from '@/api';
 
 export default function AuthorsTable() {
   const router = useRouter();
+  const { toast } = useToast();
 
   const { pagination, paginateList, remove, filters } = useAuthors();
 
   const handleRemoveRecord = useCallback(
-    (groupRow: Row<AuthorDTO>) => {
-      // const id = groupRow.original._id;
-      // remove(id);
+    async (row: Row<AuthorDTO>) => {
+      const id = row.original._id;
+      await remove(id);
     },
     [remove]
   );
 
   const handleRemoveList = useCallback(
-    (groupRows: Row<AuthorDTO>[]) => {
-      // const ids = groupRows.map((groupRow) => groupRow.original._id);
-      // ids.forEach((id) => remove(id));
+    async (rows: Row<AuthorDTO>[]) => {
+      const ids = rows.map((groupRow) => groupRow.original._id);
+      try {
+        for (const id of ids) {
+          await remove(id);
+        }
+        toast({
+          title: 'authors deleted successfully',
+          variant: 'default'
+        });
+      } catch (error) {
+        const errorMessage = APIs.common.handleApiError(error);
+        toast({ title: errorMessage, variant: 'destructive' });
+      }
     },
-    [remove]
+    [remove, toast]
   );
 
   const handleUpdate = useCallback(
-    (groupRow: Row<AuthorDTO>) => {
+    async (groupRow: Row<AuthorDTO>) => {
       const id = groupRow.original._id;
       router.push(`/dashboard/authors/${id}/`);
     },

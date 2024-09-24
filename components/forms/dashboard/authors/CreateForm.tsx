@@ -1,5 +1,6 @@
 'use client';
 
+import APIs from '@/api';
 import { InputField } from '@/components/reusables';
 import ProfileImageUploaderField from '@/components/reusables/fields/ImageUploaderField';
 import TextArea from '@/components/reusables/fields/TextArea';
@@ -36,9 +37,8 @@ export default function CreateAuthorForm() {
         toast({ title: 'Author Added successfully', variant: 'default' });
         router.back();
       } catch (err) {
-        // APIs.errors.handleApiError(err)
-        console.error(err);
-        toast({ title: 'Error adding author', variant: 'destructive' });
+        const message = APIs.common.handleApiError(err);
+        toast({ title: message, variant: 'destructive' });
       }
     }
   });

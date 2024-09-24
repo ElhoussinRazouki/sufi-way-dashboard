@@ -16,6 +16,7 @@ import { FormikProvider, useFormik } from 'formik';
 import { useRouter } from 'next/navigation';
 import * as yup from 'yup';
 import AuthorsComboBoxField from '../../../dashboard/reusables/AuthorsComboBoxField';
+import APIs from '@/api';
 
 const CreateMultimediaSchema = yup.object().shape({
   title: yup.string().required(),
@@ -48,8 +49,8 @@ export default function CreateMultimediaForm() {
         router.back();
         toast({ title: 'Multimedia Created successfully', variant: 'default' });
       } catch (err) {
-        console.error(err);
-        toast({ title: 'Error creating multimedia', variant: 'destructive' });
+        const message = APIs.common.handleApiError(err);
+        toast({ title: message, variant: 'destructive' });
       }
     }
   });

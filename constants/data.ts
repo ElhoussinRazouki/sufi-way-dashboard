@@ -1,5 +1,5 @@
 import { NavItem } from '@/types';
-import { BookA, LibraryBig, Newspaper } from 'lucide-react';
+import { BookA, CircleHelp, LibraryBig, Newspaper } from 'lucide-react';
 
 export type User = {
   id: number;
@@ -130,6 +130,12 @@ export const navItems: NavItem[] = [
     href: '/dashboard/authors',
     lucidIcon: BookA,
     label: 'Authors'
+  },
+  {
+    title: 'Frequent Questions',
+    href: '/dashboard/frequent-questions',
+    lucidIcon: CircleHelp,
+    label: 'Frequent Questions'
   },
   {
     title: 'News',
