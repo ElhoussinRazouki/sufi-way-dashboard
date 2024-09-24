@@ -4,6 +4,7 @@ import multimedia from './multimedia.api';
 import common from './common.api';
 import authors from './authors.api';
 import FqApi from './fq.api';
+import newsApi from './news.api';
 
 const APIs = {
   auth,
@@ -11,7 +12,8 @@ const APIs = {
   multimedia,
   common,
   authors,
-  FqApi
+  FqApi,
+  newsApi
   //... extend with other APIs here
 };
 
