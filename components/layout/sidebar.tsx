@@ -10,9 +10,13 @@ const backgroundImage = '/images/geomitric_pattern.png';
 
 type SidebarProps = {
   className?: string;
+  direction?: 'ltr' | 'rtl'; // Support for direction
 };
 
-export default function Sidebar({ className }: SidebarProps) {
+export default function Sidebar({
+  className,
+  direction = 'rtl'
+}: SidebarProps) {
   const { isMinimized, toggle } = useSidebar();
 
   const handleToggle = () => {
@@ -20,7 +24,7 @@ export default function Sidebar({ className }: SidebarProps) {
   };
 
   return (
-    <div className="relative hidden md:block">
+    <div className="relative hidden md:block" dir={direction}>
       {/* Background image behind the sidebar */}
       <div
         style={{
@@ -35,7 +39,8 @@ export default function Sidebar({ className }: SidebarProps) {
         className={cn(
           `relative z-10 h-screen flex-none border-r bg-white/90 transition-[width] duration-500 dark:bg-black/90 `,
           !isMinimized ? 'w-72' : 'w-[72px]',
-          className
+          className,
+          direction === 'rtl' ? 'border-l' : 'border-r' // Adjust border for RTL
         )}
       >
         <div className="hidden p-5 pt-10 lg:block">
@@ -54,8 +59,9 @@ export default function Sidebar({ className }: SidebarProps) {
         </div>
         <ChevronLeft
           className={cn(
-            'absolute -right-3 top-10 z-50 cursor-pointer rounded-full border bg-background text-3xl text-foreground',
-            isMinimized && 'rotate-180'
+            'absolute top-10 z-50 cursor-pointer rounded-full border bg-background text-3xl text-foreground',
+            direction === 'rtl' ? '-left-3' : '-right-3', // Flip chevron for RTL
+            isMinimized ? 'rotate-360' : 'rotate-180'
           )}
           onClick={handleToggle}
         />

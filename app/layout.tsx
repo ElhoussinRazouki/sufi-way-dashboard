@@ -7,6 +7,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import Providers from '@/components/layout/providers';
 import { useEffect, useState } from 'react';
+import { useRTLStore } from '@/lib/store';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -16,6 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const [isMounted, setIsMounted] = useState(false);
+  const { isRTL } = useRTLStore();
 
   useEffect(() => {
     setIsMounted(true);
@@ -26,7 +28,11 @@ export default function RootLayout({
   }
   return (
     <html lang="en">
-      <body className={`${inter.className} `} suppressHydrationWarning={true}>
+      <body
+        className={`${inter.className} `}
+        suppressHydrationWarning={true}
+        dir={isRTL ? 'rtl' : 'ltr'}
+      >
         <NextTopLoader showSpinner={false} />
         <Providers>
           <Toaster />
