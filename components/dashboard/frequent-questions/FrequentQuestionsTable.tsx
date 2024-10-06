@@ -11,6 +11,7 @@ import { useFrequentQuestions } from '@/hooks/dashboard/fq.hook';
 import { FqDTO } from '@/types/fq.types';
 import APIs from '@/api';
 import { useToast } from '@/components/ui/use-toast';
+import React from 'react';
 
 export default function FrequentQuestionsTable() {
   const router = useRouter();
@@ -33,7 +34,7 @@ export default function FrequentQuestionsTable() {
           await remove(id);
         }
         toast({
-          title: 'FAQs deleted successfully',
+          title: 'تم حذف الأسئلة الشائعة بنجاح',
           variant: 'default'
         });
       } catch (error) {
@@ -59,19 +60,19 @@ export default function FrequentQuestionsTable() {
         columnsDef: [
           {
             accessorKey: 'question',
-            title: 'Question',
+            title: 'السؤال',
             enableSorting: false
           },
           {
             accessorKey: 'response',
-            title: 'Response',
+            title: 'الإجابة',
             enableSorting: false
           }
         ],
         actions: [
-          { label: 'Update', clickHandler: handleUpdate, Icon: Edit },
+          { label: 'تحديث', clickHandler: handleUpdate, Icon: Edit },
           {
-            label: 'Delete',
+            label: 'حذف',
             clickHandler: handleRemoveRecord,
             Icon: Trash,
             isSensitive: true
@@ -84,7 +85,7 @@ export default function FrequentQuestionsTable() {
   const multiRowActions: TableMultiRowAction<FqDTO>[] = useMemo(
     () => [
       {
-        label: 'Delete',
+        label: 'حذف',
         clickHandler: handleRemoveList,
         Icon: Trash,
         isSensitive: true

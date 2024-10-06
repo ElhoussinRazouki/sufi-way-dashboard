@@ -49,7 +49,7 @@ const SensitiveField = forwardRef<HTMLInputElement, SensitiveFieldProps>(
         <div className="flex gap-1">
           <Input
             type={showData ? 'text' : 'password'}
-            className={cn('hide-password-toggle z-0 pr-8', className)}
+            className={cn('hide-password-toggle z-0', className)}
             ref={ref}
             {...field}
             {...props}

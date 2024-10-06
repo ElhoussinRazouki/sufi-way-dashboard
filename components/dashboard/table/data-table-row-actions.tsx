@@ -14,6 +14,7 @@ import { TableRowAction } from './data-table';
 import { MoreHorizontal } from 'lucide-react';
 import { useState } from 'react';
 import { AlertModal } from '@/components/modal/alert-modal';
+import React from 'react';
 
 type DataTableRowActionsProps<TData> = {
   row: Row<TData>;
@@ -39,16 +40,20 @@ export function DataTableRowActions<TData>({
       <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="h-8 w-8 p-0">
-            <span className="sr-only">Open menu</span>
+            <span className="sr-only">افتح القائمة</span>
             <MoreHorizontal className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+          <DropdownMenuLabel>إجراءات</DropdownMenuLabel>
           {actions.map(({ clickHandler, label, Icon, isSensitive }) => {
             if (!isSensitive) {
               return (
-                <DropdownMenuItem onClick={() => clickHandler(row)} key={label}>
+                <DropdownMenuItem
+                  onClick={() => clickHandler(row)}
+                  key={label}
+                  className="flex gap-1"
+                >
                   {Icon && <Icon className="mr-2 h-4 w-4" />}
                   {label}
                 </DropdownMenuItem>
@@ -63,6 +68,7 @@ export function DataTableRowActions<TData>({
                   })
                 }
                 key={label}
+                className="flex gap-1"
               >
                 {Icon && <Icon className="mr-2 h-4 w-4" />}
                 {label}

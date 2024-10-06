@@ -43,9 +43,9 @@ export default function ComboboxField<T extends string | number | null>({
   label,
   className,
   required,
-  searchPlaceholder = 'Search Items...',
-  selectPlaceholder = 'Select items...',
-  noItemsFoundMessage = 'No items found.',
+  searchPlaceholder = 'ابحث عن العناصر...',
+  selectPlaceholder = 'اختر العناصر...',
+  noItemsFoundMessage = 'لم يتم العثور على عناصر.',
   onChange,
   onSearchChange,
   help
@@ -67,7 +67,7 @@ export default function ComboboxField<T extends string | number | null>({
     // If required, add an empty option at the start
     if (!required) {
       updatedItems = [
-        { label: 'Select no item', value: '' as T },
+        { label: 'اختر لا شيء', value: '' as T },
         ...updatedItems
       ];
     }

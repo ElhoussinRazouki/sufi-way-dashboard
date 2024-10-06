@@ -26,19 +26,18 @@ export const AlertModal: React.FC<AlertModalProps> = ({
   }, [onClose, onConfirm]);
 
   return (
-    <Modal
-      title="Are you sure?"
-      description="This action cannot be undone."
-      isOpen={isOpen}
-      onClose={onClose}
-    >
-      <div className="flex w-full items-center justify-end space-x-2 pt-6">
-        <Button variant="outline" onClick={onClose}>
-          Cancel
-        </Button>
-        <Button variant="destructive" onClick={handleConfirm}>
-          {isLoading ? <LoadingSection /> : 'Continue'}
-        </Button>
+    <Modal title="" description="" isOpen={isOpen} onClose={onClose}>
+      <div className="flex w-full flex-col">
+        <h2 className="text-xl font-semibold">هل أنت متأكد؟</h2>
+        <p>لا يمكن التراجع عن هذا الإجراء.</p>
+        <div className="flex w-full justify-end gap-2 pt-6">
+          <Button variant="outline" onClick={onClose}>
+            إلغاء
+          </Button>
+          <Button variant="destructive" onClick={handleConfirm}>
+            {isLoading ? <LoadingSection /> : 'متابعة'}
+          </Button>
+        </div>
       </div>
     </Modal>
   );

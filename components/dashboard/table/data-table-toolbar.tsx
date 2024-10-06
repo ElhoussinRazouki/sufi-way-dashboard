@@ -39,8 +39,8 @@ export function DataTableToolbar<TData>({
   const isFiltered = table.getState().columnFilters.length > 0;
 
   return (
-    <div className="flex items-center justify-between">
-      <div className="flex flex-1 items-center space-x-2">
+    <div className="flex items-center justify-between gap-1">
+      <div className="flex flex-1 items-center gap-1 space-x-2">
         {filterElements?.searchInput && (
           <Input
             placeholder={
@@ -72,10 +72,10 @@ export function DataTableToolbar<TData>({
           <Button
             variant="ghost"
             onClick={() => table.resetColumnFilters()}
-            className="h-8 px-2 lg:px-3"
+            className="flex h-8 gap-1 px-2 lg:px-3"
           >
-            Reset
-            <Cross2Icon className="ml-2 h-4 w-4" />
+            <Cross2Icon className=" h-4 w-4" />
+            إعادة تعيين
           </Button>
         )}
       </div>

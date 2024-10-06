@@ -8,9 +8,9 @@ import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
 const breadcrumbItems = [
-  { title: 'Dashboard', link: '/dashboard' },
-  { title: 'Authors', link: '/dashboard/authors' },
-  { title: 'Update', link: '/dashboard/authors/update' }
+  { title: 'لوحة القيادة', link: '/dashboard' },
+  { title: 'المؤلفون', link: '/dashboard/authors' },
+  { title: 'تحديث', link: '/dashboard/authors/update' }
 ];
 
 export default function Page() {
@@ -29,8 +29,8 @@ export default function Page() {
     <div className="flex-1 space-y-4 p-8">
       <Breadcrumbs items={breadcrumbItems} />
       <Heading
-        title="Update Author"
-        description="make changes on a existing author"
+        title="تحديث المؤلف"
+        description="إجراء تغييرات على مؤلف موجود"
       />
       <Separator />
       <UpdateAuthorForm id={id as string} />

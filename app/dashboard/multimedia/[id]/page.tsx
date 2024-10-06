@@ -8,9 +8,9 @@ import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
 const breadcrumbItems = [
-  { title: 'Dashboard', link: '/dashboard' },
-  { title: 'Multimedia Library', link: '/dashboard/multimedia' },
-  { title: 'Update', link: '/dashboard/multimedia/update' }
+  { title: 'لوحة القيادة', link: '/dashboard' },
+  { title: 'مكتبة الوسائط المتعددة', link: '/dashboard/multimedia' },
+  { title: 'تحديث', link: '/dashboard/multimedia/update' }
 ];
 
 export default function Page() {
@@ -29,8 +29,8 @@ export default function Page() {
     <div className="flex-1 space-y-4 p-8">
       <Breadcrumbs items={breadcrumbItems} />
       <Heading
-        title="Update Multimedia"
-        description="make changes on a existing multimedia item"
+        title="تحديث الوسائط المتعددة"
+        description="إجراء تغييرات على عنصر وسائط متعددة موجود"
       />
       <Separator />
       <UpdateMultimediaForm multimediaId={id as string} />

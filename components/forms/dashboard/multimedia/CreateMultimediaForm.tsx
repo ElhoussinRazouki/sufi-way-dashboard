@@ -5,7 +5,6 @@ import AudioUploaderField from '@/components/reusables/fields/AudioUploaderField
 import ImageUploaderField from '@/components/reusables/fields/ImageUploaderField';
 import PdfUploaderField from '@/components/reusables/fields/PdfUploaderField';
 import TextArea from '@/components/reusables/fields/TextArea';
-import UploadField from '@/components/reusables/fields/UploadField';
 import VideoUploaderField from '@/components/reusables/fields/VideoUploaderField';
 import SubmitButton from '@/components/reusables/SubmitButton';
 import { useToast } from '@/components/ui/use-toast';
@@ -19,12 +18,15 @@ import AuthorsComboBoxField from '../../../dashboard/reusables/AuthorsComboBoxFi
 import APIs from '@/api';
 
 const CreateMultimediaSchema = yup.object().shape({
-  title: yup.string().required(),
-  author_id: yup.string().required(),
+  title: yup.string().required('العنوان مطلوب'),
+  author_id: yup.string().required('المؤلف مطلوب'),
   thumbnail: yup.string().optional(),
-  description: yup.string().required(),
-  url: yup.string().required(),
-  type: yup.string().oneOf(MULTIMEDIA_TYPES).required()
+  description: yup.string().required('الوصف مطلوب'),
+  url: yup.string().required('الرابط مطلوب'),
+  type: yup
+    .string()
+    .oneOf(MULTIMEDIA_TYPES, 'نوع الوسائط غير صالح')
+    .required('النوع مطلوب')
 });
 
 export default function CreateMultimediaForm() {
@@ -47,7 +49,7 @@ export default function CreateMultimediaForm() {
       try {
         await createMultimedia(values);
         router.back();
-        toast({ title: 'Multimedia Created successfully', variant: 'default' });
+        toast({ title: 'تم إنشاء الوسائط بنجاح', variant: 'default' });
       } catch (err) {
         const message = APIs.common.handleApiError(err);
         toast({ title: message, variant: 'destructive' });
@@ -59,13 +61,18 @@ export default function CreateMultimediaForm() {
     <FormikProvider value={formik}>
       <form onSubmit={formik.handleSubmit}>
         <div className="flex gap-2">
-          <InputField name="title" className="w-full" label="Title" required />
-          <AuthorsComboBoxField label="Author" className="w-full" required />
+          <InputField
+            name="title"
+            className="w-full"
+            label="العنوان"
+            required
+          />
+          <AuthorsComboBoxField label="المؤلف" className="w-full" required />
         </div>
-        <TextArea name="description" label="Description" required />
+        <TextArea name="description" label="الوصف" required />
         <SelectField
           name="type"
-          label="Type"
+          label="النوع"
           options={MULTIMEDIA_TYPES.map((type) => ({
             value: type,
             label: type
@@ -73,19 +80,19 @@ export default function CreateMultimediaForm() {
           required
         />
         <div className="my-4 flex gap-4">
-          <ImageUploaderField name="thumbnail" label="Thumbnail" />
+          <ImageUploaderField name="thumbnail" label="الصورة المصغرة" />
           {formik.values.type === 'audio' && (
-            <AudioUploaderField name="url" label="Audio" required />
+            <AudioUploaderField name="url" label="الصوت" required />
           )}
           {formik.values.type === 'video' && (
-            <VideoUploaderField name="url" label="Video" required />
+            <VideoUploaderField name="url" label="الفيديو" required />
           )}
           {formik.values.type === 'pdf' && (
-            <PdfUploaderField name="url" label="Pdf Document" required />
+            <PdfUploaderField name="url" label="مستند PDF" required />
           )}
         </div>
         <div className="my-4 flex justify-end">
-          <SubmitButton type="submit" variant="default" title="Create" />
+          <SubmitButton type="submit" variant="default" title="إنشاء" />
         </div>
       </form>
     </FormikProvider>

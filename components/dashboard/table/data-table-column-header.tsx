@@ -21,7 +21,12 @@ export function DataTableColumnHeader<TData, TValue>({
 }: DataTableColumnHeaderProps<TData, TValue>) {
   if (!column.getCanSort()) {
     return (
-      <span className={cn('whitespace-nowrap !text-[0.8rem]', className)}>
+      <span
+        className={cn(
+          'flex whitespace-nowrap text-start !text-[0.9rem] font-semibold',
+          className
+        )}
+      >
         {title}
       </span>
     );
@@ -37,7 +42,9 @@ export function DataTableColumnHeader<TData, TValue>({
           column.toggleSorting();
         }}
       >
-        <span className="whitespace-nowrap">{title}</span>
+        <span className="flex whitespace-nowrap text-start !text-[0.8rem] font-semibold">
+          {title}
+        </span>
         {column.getIsSorted() === 'desc' ? (
           <ArrowDownIcon className="ml-2 h-4 w-4" />
         ) : column.getIsSorted() === 'asc' ? (

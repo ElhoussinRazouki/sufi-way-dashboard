@@ -29,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} `}
+        className={`${inter.className} min-w-[400px]`}
         suppressHydrationWarning={true}
         dir={isRTL ? 'rtl' : 'ltr'}
       >

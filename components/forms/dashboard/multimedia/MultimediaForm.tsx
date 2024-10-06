@@ -3,7 +3,6 @@
 import { InputField, SelectField } from '@/components/reusables';
 import TextArea from '@/components/reusables/fields/TextArea';
 import SubmitButton from '@/components/reusables/SubmitButton';
-import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import { MULTIMEDIA_TYPES } from '@/constants/data';
 import {
@@ -22,12 +21,15 @@ import PdfUploaderField from '@/components/reusables/fields/PdfUploaderField';
 import APIs from '@/api';
 
 const UpdateMultimediaSchema = yup.object().shape({
-  title: yup.string().required(),
-  author_id: yup.string().required(),
+  title: yup.string().required('العنوان مطلوب'),
+  author_id: yup.string().required('المؤلف مطلوب'),
   thumbnail: yup.string().optional(),
-  description: yup.string().required(),
-  url: yup.string().required(),
-  type: yup.string().oneOf(MULTIMEDIA_TYPES).required()
+  description: yup.string().required('الوصف مطلوب'),
+  url: yup.string().required('الرابط مطلوب'),
+  type: yup
+    .string()
+    .oneOf(MULTIMEDIA_TYPES, 'نوع الوسائط غير صالح')
+    .required('النوع مطلوب')
 });
 
 type UpdateMultimediaFormProps = {
@@ -59,7 +61,7 @@ export default function UpdateMultimediaForm({
         await updateMultiMedia(multimediaId, values).then(() => {
           router.back();
           toast({
-            title: 'Multimedia updated successfully',
+            title: 'تم تحديث الوسائط بنجاح',
             variant: 'default'
           });
         });
@@ -73,35 +75,35 @@ export default function UpdateMultimediaForm({
   return (
     <FormikProvider value={formik}>
       <form onSubmit={formik.handleSubmit}>
-        <InputField name="title" label="Title" />
+        <InputField name="title" label="العنوان" />
         <AuthorsComboBoxField
-          label="Author"
+          label="المؤلف"
           className="w-full"
           defaultAuthor={multimediaDetails?.author_id}
         />
-        <TextArea name="description" label="Description" />
+        <TextArea name="description" label="الوصف" />
         <SelectField
           name="type"
-          label="Type"
+          label="النوع"
           options={MULTIMEDIA_TYPES.map((type) => ({
             value: type,
             label: type
           }))}
         />
         <div className="my-4 flex gap-4">
-          <ImageUploaderField name="thumbnail" label="Thumbnail" />
+          <ImageUploaderField name="thumbnail" label="الصورة المصغرة" />
           {formik.values.type === 'audio' && (
-            <AudioUploaderField name="url" label="Audio" />
+            <AudioUploaderField name="url" label="الصوت" />
           )}
           {formik.values.type === 'video' && (
-            <VideoUploaderField name="url" label="Video" />
+            <VideoUploaderField name="url" label="الفيديو" />
           )}
           {formik.values.type === 'pdf' && (
-            <PdfUploaderField name="url" label="Pdf Document" />
+            <PdfUploaderField name="url" label="مستند PDF" />
           )}
         </div>
         <div className="my-4 flex justify-end">
-          <SubmitButton type="submit" variant="default" title="Save Changes" />
+          <SubmitButton type="submit" variant="default" title="حفظ التغييرات" />
         </div>
       </form>
     </FormikProvider>

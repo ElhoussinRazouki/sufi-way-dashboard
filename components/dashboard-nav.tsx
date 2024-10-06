@@ -79,7 +79,7 @@ export function DashboardNav({
           );
         })}
       </TooltipProvider>
-      <div className="absolute bottom-2 left-2">
+      <div className="absolute bottom-2 left-4">
         <ThemeToggle />
       </div>
     </nav>

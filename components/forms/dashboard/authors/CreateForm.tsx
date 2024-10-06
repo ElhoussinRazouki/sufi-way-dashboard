@@ -13,8 +13,8 @@ import { useRouter } from 'next/navigation';
 import * as yup from 'yup';
 
 const CreateAuthorSchema = yup.object().shape({
-  name: yup.string().required(),
-  avatar: yup.string().required(),
+  name: yup.string().required('الاسم مطلوب'),
+  avatar: yup.string().required('الصورة مطلوبة'),
   bio: yup.string().optional()
 });
 
@@ -34,7 +34,7 @@ export default function CreateAuthorForm() {
     onSubmit: async (values: AuthorCreateDTO) => {
       try {
         await create(values);
-        toast({ title: 'Author Added successfully', variant: 'default' });
+        toast({ title: 'تمت إضافة المؤلف بنجاح', variant: 'default' });
         router.back();
       } catch (err) {
         const message = APIs.common.handleApiError(err);
@@ -46,12 +46,12 @@ export default function CreateAuthorForm() {
   return (
     <FormikProvider value={formik}>
       <form onSubmit={formik.handleSubmit}>
-        <ProfileImageUploaderField name="avatar" label="Profile Image" />
-        <InputField name="name" label="Name" />
-        <TextArea name="bio" label="Bio" />
+        <ProfileImageUploaderField name="avatar" label="صورة الملف الشخصي" />
+        <InputField name="name" label="الاسم" />
+        <TextArea name="bio" label="السيرة الذاتية" className="min-h-32" />
 
         <div className="my-4 flex justify-end">
-          <SubmitButton type="submit" variant="default" title="Add" />
+          <SubmitButton type="submit" variant="default" title="إضافة" />
         </div>
       </form>
     </FormikProvider>

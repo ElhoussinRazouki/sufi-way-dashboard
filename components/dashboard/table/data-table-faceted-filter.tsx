@@ -32,13 +32,16 @@ export function DataTableFacetedFilter<TData, TValue>({
   title,
   options
 }: DataTableFacetedFilterProps<TData, TValue>) {
-  const facets = column?.getFacetedUniqueValues();
   const selectedValue = column?.getFilterValue() as string | undefined;
 
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="outline" size="sm" className="h-8 border-dashed">
+        <Button
+          variant="outline"
+          size="sm"
+          className="flex h-8 gap-1 border-dashed"
+        >
           <PlusCircledIcon className="mr-2 h-4 w-4" />
           {title}
           {selectedValue && (
@@ -61,9 +64,9 @@ export function DataTableFacetedFilter<TData, TValue>({
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0" align="start">
         <Command>
-          <CommandInput placeholder={title} />
+          <CommandInput placeholder={title} className="ms-1" />
           <CommandList>
-            <CommandEmpty>No results found.</CommandEmpty>
+            <CommandEmpty>لم يتم العثور على نتائج.</CommandEmpty>
             <CommandGroup>
               {options.map((option) => {
                 const isSelected = selectedValue === option.value;
@@ -74,10 +77,11 @@ export function DataTableFacetedFilter<TData, TValue>({
                       const newValue = isSelected ? undefined : option.value;
                       column?.setFilterValue(newValue);
                     }}
+                    className="flex gap-2"
                   >
                     <div
                       className={cn(
-                        'mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary',
+                        ' flex h-4 w-4 items-center justify-center gap-1 rounded-sm border border-primary',
                         isSelected
                           ? 'bg-primary text-primary-foreground'
                           : 'opacity-50 [&_svg]:invisible'
@@ -90,10 +94,10 @@ export function DataTableFacetedFilter<TData, TValue>({
                     )}
                     <span>{option.label}</span>
                     {/* {facets?.get(option.value) && (
-                      <span className="ml-auto flex h-4 w-4 items-center justify-center font-mono text-xs">
-                        {facets.get(option.value)}
-                      </span>
-                    )} */}
+              <span className="ml-auto flex h-4 w-4 items-center justify-center font-mono text-xs">
+              {facets.get(option.value)}
+              </span>
+            )} */}
                   </CommandItem>
                 );
               })}
@@ -106,7 +110,7 @@ export function DataTableFacetedFilter<TData, TValue>({
                     onSelect={() => column?.setFilterValue(undefined)}
                     className="justify-center text-center"
                   >
-                    Clear filters
+                    مسح الفلاتر
                   </CommandItem>
                 </CommandGroup>
               </>

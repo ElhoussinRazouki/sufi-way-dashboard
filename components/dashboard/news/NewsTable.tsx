@@ -6,16 +6,14 @@ import { useCallback, useMemo } from 'react';
 import generateColumnsDefinition from '../table/columns';
 import { TableMultiRowAction } from '../table/data-table';
 import { PaginatedDataTable } from '../table/paginated-data-table';
-import { useMultiMedia } from '@/hooks/dashboard/multimedia.hook';
-import { MultimediaDTO } from '@/types/multimedia.types';
 import { Edit, Trash } from 'lucide-react';
 import { debounce, formatDate } from '@/utils';
-import CustomBadge from '@/components/reusables/CustomBadge';
 import { filterElementsType } from '../table/data-table-toolbar';
 import { toast } from '@/components/ui/use-toast';
 import APIs from '@/api';
 import { useNews } from '@/hooks/dashboard/news.hook';
 import { NewsDTO } from '@/types/news.types';
+import React from 'react';
 
 export default function NewsTable() {
   const router = useRouter();
@@ -28,7 +26,7 @@ export default function NewsTable() {
       try {
         await remove(id);
         toast({
-          title: 'News deleted successfully',
+          title: 'تم حذف الخبر بنجاح',
           variant: 'default'
         });
       } catch (error) {
@@ -47,7 +45,7 @@ export default function NewsTable() {
           await remove(id);
         }
         toast({
-          title: 'List of News deleted successfully',
+          title: 'تم حذف قائمة الأخبار بنجاح',
           variant: 'default'
         });
       } catch (error) {
@@ -73,7 +71,7 @@ export default function NewsTable() {
         columnsDef: [
           {
             accessorKey: 'title',
-            title: 'Title',
+            title: 'العنوان',
             enableSorting: false,
             cell: ({ row }) => (
               <span className="line-clamp-1">{row.original.title}</span>
@@ -81,7 +79,7 @@ export default function NewsTable() {
           },
           {
             accessorKey: 'description',
-            title: 'Description',
+            title: 'الوصف',
             enableSorting: false,
             cell: ({ row }) => (
               <span className="line-clamp-1">{row.original.url}</span>
@@ -89,7 +87,7 @@ export default function NewsTable() {
           },
           {
             accessorKey: 'url',
-            title: 'URL',
+            title: 'الرابط',
             enableSorting: false,
             cell: ({ row }) => (
               <span className="line-clamp-1">{row.original.url}</span>
@@ -97,7 +95,7 @@ export default function NewsTable() {
           },
           {
             accessorKey: 'created_at',
-            title: 'Created At',
+            title: 'تاريخ الإنشاء',
             cell: ({ row }) => (
               <span>
                 {formatDate(row.original.created_at, {
@@ -109,7 +107,7 @@ export default function NewsTable() {
           },
           {
             accessorKey: 'updated_at',
-            title: 'Updated At',
+            title: 'تاريخ التحديث',
             enableSorting: false,
             cell: ({ row }) => (
               <span>
@@ -122,9 +120,9 @@ export default function NewsTable() {
           }
         ],
         actions: [
-          { label: 'Update', clickHandler: handleUpdate, Icon: Edit },
+          { label: 'تحديث', clickHandler: handleUpdate, Icon: Edit },
           {
-            label: 'Delete',
+            label: 'حذف',
             clickHandler: handleDelete,
             Icon: Trash,
             isSensitive: true
@@ -135,14 +133,21 @@ export default function NewsTable() {
   );
 
   const multiRowActions: TableMultiRowAction<NewsDTO>[] = useMemo(
-    () => [{ label: 'Delete', clickHandler: handleDeleteList, Icon: Trash }],
+    () => [
+      {
+        label: 'حذف',
+        clickHandler: handleDeleteList,
+        Icon: Trash,
+        isSensitive: true
+      }
+    ],
     [handleDeleteList]
   );
 
   const filterElements: filterElementsType = {
     searchInput: {
       accessorKey: 'title',
-      placeholder: 'Search by the title...'
+      placeholder: 'ابحث عن طريق العنوان...'
     }
   };
 

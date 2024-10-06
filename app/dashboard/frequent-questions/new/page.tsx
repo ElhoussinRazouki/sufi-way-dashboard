@@ -7,9 +7,9 @@ import { Separator } from '@/components/ui/separator';
 import React, { useEffect, useState } from 'react';
 
 const breadcrumbItems = [
-  { title: 'Dashboard', link: '/dashboard' },
-  { title: 'Frequent Questions', link: '/dashboard/frequent-questions' },
-  { title: 'Create', link: '/dashboard/frequent-questions/create' }
+  { title: 'لوحة القيادة', link: '/dashboard' },
+  { title: 'الأسئلة المتكررة', link: '/dashboard/frequent-questions' },
+  { title: 'إنشاء', link: '/dashboard/frequent-questions/create' }
 ];
 
 export default function Page() {
@@ -23,11 +23,11 @@ export default function Page() {
     return null;
   }
   return (
-    <div className="flex-1 space-y-4  p-8">
+    <div className="flex-1 space-y-4 p-8">
       <Breadcrumbs items={breadcrumbItems} />
       <Heading
-        title="Create New Frequent Question"
-        description="Fill out the form below to add a new FAQ item to the dashboard."
+        title="إنشاء سؤال متكرر جديد"
+        description="املأ النموذج أدناه لإضافة عنصر سؤال متكرر جديد إلى لوحة القيادة."
       />
       <Separator />
       <CreateFqForm />

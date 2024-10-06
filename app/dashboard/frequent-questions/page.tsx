@@ -1,9 +1,8 @@
 'use client';
 
 import { Breadcrumbs } from '@/components/breadcrumbs';
-import AuthorsTable from '@/components/dashboard/authors/AuthorsTable';
 import FrequentQuestionsTable from '@/components/dashboard/frequent-questions/FrequentQuestionsTable';
-import MultimediaTable from '@/components/dashboard/multimedia/MultimediaTable';
+import DashboardSection from '@/components/dashboardSection';
 import PageContainer from '@/components/layout/page-container';
 import { Button } from '@/components/ui/button';
 import { Heading } from '@/components/ui/heading';
@@ -12,8 +11,8 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 const breadcrumbItems = [
-  { title: 'Dashboard', link: '/dashboard' },
-  { title: 'Frequent Questions', link: '/dashboard/frequent-questions' }
+  { title: 'لوحة القيادة', link: '/dashboard' },
+  { title: 'الأسئلة المتكررة', link: '/dashboard/frequent-questions' }
 ];
 
 type paramsProps = {
@@ -36,23 +35,24 @@ export default function Page({ searchParams }: paramsProps) {
 
   return (
     <PageContainer scrollable={true}>
-      <div className="space-y-4">
+      <DashboardSection>
         <Breadcrumbs items={breadcrumbItems} />
 
         <div className="flex items-start justify-between">
           <Heading
-            title="Manage All The Frequent Questions"
-            description="Here you can manage all the frequent questions in the system"
+            title="إدارة جميع الأسئلة المتكررة"
+            description="هنا يمكنك إدارة جميع الأسئلة المتكررة في النظام"
           />
           <Button
             variant={'default'}
             onClick={() => router.push('/dashboard/frequent-questions/new')}
+            className="text-nowrap"
           >
-            <Plus className="mr-2 h-4 w-4" /> Add New
+            <Plus className="mr-2 h-4 w-4" /> إضافة جديد
           </Button>
         </div>
         <FrequentQuestionsTable />
-      </div>
+      </DashboardSection>
     </PageContainer>
   );
 }

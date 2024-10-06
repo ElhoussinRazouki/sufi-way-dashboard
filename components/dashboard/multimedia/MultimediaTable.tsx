@@ -14,6 +14,7 @@ import CustomBadge from '@/components/reusables/CustomBadge';
 import { filterElementsType } from '../table/data-table-toolbar';
 import { toast } from '@/components/ui/use-toast';
 import APIs from '@/api';
+import React from 'react';
 
 export default function MultimediaTable() {
   const router = useRouter();
@@ -27,7 +28,7 @@ export default function MultimediaTable() {
       try {
         await deleteMultimedia(id);
         toast({
-          title: 'Multimedia deleted successfully',
+          title: 'تم حذف الوسائط المتعددة بنجاح',
           variant: 'default'
         });
       } catch (error) {
@@ -46,7 +47,7 @@ export default function MultimediaTable() {
           await deleteMultimedia(id);
         }
         toast({
-          title: 'Multimedia deleted successfully',
+          title: 'تم حذف الوسائط المتعددة بنجاح',
           variant: 'default'
         });
       } catch (error) {
@@ -72,7 +73,7 @@ export default function MultimediaTable() {
         columnsDef: [
           {
             accessorKey: 'title',
-            title: 'Title',
+            title: 'العنوان',
             enableSorting: false,
             cell: ({ row }) => (
               <span className="line-clamp-1">{row.original.title}</span>
@@ -80,7 +81,7 @@ export default function MultimediaTable() {
           },
           {
             accessorKey: 'author_id.name',
-            title: 'Author',
+            title: 'المؤلف',
             enableSorting: false,
             cell: ({ row }) => (
               <span className="text-nowrap">
@@ -90,7 +91,7 @@ export default function MultimediaTable() {
           },
           {
             accessorKey: 'url',
-            title: 'URL',
+            title: 'الرابط',
             enableSorting: false,
             cell: ({ row }) => (
               <span className="line-clamp-1">{row.original.url}</span>
@@ -98,7 +99,7 @@ export default function MultimediaTable() {
           },
           {
             accessorKey: 'type',
-            title: 'Type',
+            title: 'النوع',
             enableSorting: false,
             cell: ({ row }) => (
               <CustomBadge type="random" intensity={2}>
@@ -108,7 +109,7 @@ export default function MultimediaTable() {
           },
           {
             accessorKey: 'created_at',
-            title: 'Created At',
+            title: 'تاريخ الإنشاء',
             cell: ({ row }) => (
               <span>
                 {formatDate(row.original.created_at, {
@@ -120,7 +121,7 @@ export default function MultimediaTable() {
           },
           {
             accessorKey: 'updated_at',
-            title: 'Updated At',
+            title: 'تاريخ التحديث',
             enableSorting: false,
             cell: ({ row }) => (
               <span>
@@ -133,9 +134,9 @@ export default function MultimediaTable() {
           }
         ],
         actions: [
-          { label: 'Update', clickHandler: handleUpdateMultimedia, Icon: Edit },
+          { label: 'تحديث', clickHandler: handleUpdateMultimedia, Icon: Edit },
           {
-            label: 'Delete',
+            label: 'حذف',
             clickHandler: handleDeleteMultimedia,
             Icon: Trash,
             isSensitive: true
@@ -147,7 +148,12 @@ export default function MultimediaTable() {
 
   const multiRowActions: TableMultiRowAction<MultimediaDTO>[] = useMemo(
     () => [
-      { label: 'Delete', clickHandler: handleDeleteMultimediaList, Icon: Trash }
+      {
+        label: 'حذف',
+        clickHandler: handleDeleteMultimediaList,
+        Icon: Trash,
+        isSensitive: true
+      }
     ],
     [handleDeleteMultimediaList]
   );
@@ -155,16 +161,16 @@ export default function MultimediaTable() {
   const filterElements: filterElementsType = {
     searchInput: {
       accessorKey: 'title',
-      placeholder: 'Search by the title...'
+      placeholder: 'ابحث عن طريق العنوان...'
     },
     multiSelectFilters: [
       {
         accessorKey: 'type',
-        title: 'Type',
+        title: 'النوع',
         options: [
-          { label: 'Video', value: 'video' },
-          { label: 'PDF', value: 'pdf' },
-          { label: 'Audio', value: 'audio' }
+          { label: 'فيديو', value: 'video' },
+          { label: 'مقالة', value: 'pdf' },
+          { label: 'صوت', value: 'audio' }
         ]
       }
     ]

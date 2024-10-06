@@ -12,8 +12,8 @@ import SensitiveField from '../reusables/fields/SensitiveField';
 import { useToast } from '../ui/use-toast';
 
 const loginSchema = yup.object().shape({
-  email: yup.string().required('Please enter your email'),
-  password: yup.string().required('Please enter your password')
+  email: yup.string().required('يرجى إدخال بريدك الإلكتروني'),
+  password: yup.string().required('يرجى إدخال كلمة المرور الخاصة بك')
 });
 
 const initialValues = {
@@ -30,7 +30,7 @@ export default function LoginForm({ className }: { className?: string }) {
       try {
         const authToken = await auth(values.email, values.password);
         if (authToken) {
-          await redirect(); // redirect to the dashboard or the the "to" page
+          await redirect(); // redirect to the dashboard or the "to" page
         }
       } catch (err) {
         if (axios.isAxiosError(err) && err.response?.status === 401) {
@@ -52,15 +52,15 @@ export default function LoginForm({ className }: { className?: string }) {
           <div className={cn('grid gap-4', className)}>
             <InputField
               name="email"
-              label="Email"
-              placeholder="e.g. ahmed@ux.ai"
+              label="البريد الإلكتروني"
+              placeholder="مثال: ahmed@ux.ai"
             />
             <SensitiveField
               name="password"
-              label="Password"
+              label="كلمة المرور"
               placeholder="******"
             />
-            <SubmitButton title="Login" />
+            <SubmitButton title="تسجيل الدخول" />
           </div>
         </form>
       )}

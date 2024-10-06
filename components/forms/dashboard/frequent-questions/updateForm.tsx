@@ -15,8 +15,8 @@ import { useRouter } from 'next/navigation';
 import * as yup from 'yup';
 
 const UpdateFqSchema = yup.object().shape({
-  question: yup.string().optional(),
-  response: yup.string().optional()
+  question: yup.string().optional().label('السؤال'),
+  response: yup.string().optional().label('الإجابة')
 });
 
 type UpdateFqFormProps = {
@@ -41,7 +41,7 @@ export default function UpdateFqForm({ className, id }: UpdateFqFormProps) {
         update(id, values).then(() => {
           router.back();
           toast({
-            title: 'Frequent Question updated successfully',
+            title: 'تم تحديث السؤال المتكرر بنجاح',
             variant: 'default'
           });
         });
@@ -58,19 +58,19 @@ export default function UpdateFqForm({ className, id }: UpdateFqFormProps) {
         {/* Question Input Field */}
         <InputField
           name="question"
-          label="Question"
-          placeholder="Enter the FAQ question here"
+          label="السؤال"
+          placeholder="أدخل السؤال المتكرر هنا"
         />
 
         {/* Response TextArea */}
         <TextArea
           name="response"
-          label="Response"
-          placeholder="Provide a detailed response for the question"
+          label="الإجابة"
+          placeholder="قدم إجابة مفصلة للسؤال"
         />
 
         <div className="my-4 flex justify-end">
-          <SubmitButton type="submit" variant="default" title="Save Changes" />
+          <SubmitButton type="submit" variant="default" title="حفظ التغييرات" />
         </div>
       </form>
     </FormikProvider>

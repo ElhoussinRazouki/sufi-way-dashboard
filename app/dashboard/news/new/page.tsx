@@ -7,9 +7,9 @@ import { Separator } from '@/components/ui/separator';
 import React, { useEffect, useState } from 'react';
 
 const breadcrumbItems = [
-  { title: 'Dashboard', link: '/dashboard' },
-  { title: 'News', link: '/dashboard/news' },
-  { title: 'Create', link: '/dashboard/news/create' }
+  { title: 'لوحة القيادة', link: '/dashboard' },
+  { title: 'الأخبار', link: '/dashboard/news' },
+  { title: 'إنشاء', link: '/dashboard/news/create' }
 ];
 
 export default function Page() {
@@ -23,11 +23,11 @@ export default function Page() {
     return null;
   }
   return (
-    <div className="flex-1 space-y-4  p-8">
+    <div className="flex-1 space-y-4 p-8">
       <Breadcrumbs items={breadcrumbItems} />
       <Heading
-        title="Create News"
-        description="form to create a new article or news"
+        title="إنشاء خبر جديد"
+        description="نموذج لإنشاء مقال أو خبر جديد"
       />
       <Separator />
       <CreateNewsForm />

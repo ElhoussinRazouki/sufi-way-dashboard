@@ -13,9 +13,9 @@ import { useNews } from '@/hooks/dashboard/news.hook';
 import { NewsCreateDTO } from '@/types/news.types';
 
 const CreateNewsSchema = yup.object().shape({
-  title: yup.string().required(),
-  description: yup.string().required(),
-  url: yup.string().required()
+  title: yup.string().required('العنوان مطلوب'),
+  description: yup.string().required('الوصف مطلوب'),
+  url: yup.string().required('الرابط مطلوب')
 });
 
 export default function CreateNewsForm() {
@@ -35,7 +35,7 @@ export default function CreateNewsForm() {
       try {
         await create(values);
         router.back();
-        toast({ title: 'News Created successfully', variant: 'default' });
+        toast({ title: 'تم إنشاء الخبر بنجاح', variant: 'default' });
       } catch (err) {
         const message = APIs.common.handleApiError(err);
         toast({ title: message, variant: 'destructive' });
@@ -46,13 +46,13 @@ export default function CreateNewsForm() {
   return (
     <FormikProvider value={formik}>
       <form onSubmit={formik.handleSubmit}>
-        <InputField name="title" className="w-full" label="Title" required />
-        <TextArea name="description" label="Description" required />
+        <InputField name="title" className="w-full" label="العنوان" required />
+        <TextArea name="description" label="الوصف" required />
         <div className="my-4 flex gap-4">
-          <ImageUploaderField name="url" label="Image" required />
+          <ImageUploaderField name="url" label="الصورة" required />
         </div>
         <div className="my-4 flex justify-end">
-          <SubmitButton type="submit" variant="default" title="Create" />
+          <SubmitButton type="submit" variant="default" title="إنشاء" />
         </div>
       </form>
     </FormikProvider>

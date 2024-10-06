@@ -4,7 +4,6 @@ import APIs from '@/api';
 import { InputField } from '@/components/reusables';
 import ProfileImageUploaderField from '@/components/reusables/fields/ImageUploaderField';
 import TextArea from '@/components/reusables/fields/TextArea';
-import UploadField from '@/components/reusables/fields/UploadField';
 import SubmitButton from '@/components/reusables/SubmitButton';
 import { useToast } from '@/components/ui/use-toast';
 import { useAuthorDetails, useAuthors } from '@/hooks/dashboard/authors.hook';
@@ -14,9 +13,14 @@ import { useRouter } from 'next/navigation';
 import * as yup from 'yup';
 
 const UpdateAuthorSchema = yup.object().shape({
-  name: yup.string().optional(),
-  avatar: yup.string().optional(),
-  bio: yup.string().optional()
+  name: yup.string().optional().label('الاسم').nullable().default(''),
+  avatar: yup
+    .string()
+    .optional()
+    .label('صورة الملف الشخصي')
+    .nullable()
+    .default(''),
+  bio: yup.string().optional().label('السيرة الذاتية').nullable().default('')
 });
 
 type UpdateAuthorFormProps = {
@@ -35,16 +39,16 @@ export default function UpdateAuthorForm({
 
   const formik = useFormik({
     initialValues: {
-      name: details?.name,
-      avatar: details?.avatar,
-      bio: details?.bio
+      name: details?.name || '',
+      avatar: details?.avatar || '',
+      bio: details?.bio || ''
     },
     validationSchema: UpdateAuthorSchema,
     onSubmit: async (values: AuthorPatchDTO) => {
       try {
         update(id, values).then(() => {
           router.back();
-          toast({ title: 'Author updated successfully', variant: 'default' });
+          toast({ title: 'تم تحديث المؤلف بنجاح', variant: 'default' });
         });
       } catch (err) {
         const message = APIs.common.handleApiError(err);
@@ -56,12 +60,12 @@ export default function UpdateAuthorForm({
   return (
     <FormikProvider value={formik}>
       <form onSubmit={formik.handleSubmit}>
-        <ProfileImageUploaderField name="avatar" label="Profile Image" />
-        <InputField name="name" label="Name" />
-        <TextArea name="bio" label="Bio" />
+        <ProfileImageUploaderField name="avatar" label="صورة الملف الشخصي" />
+        <InputField name="name" label="الاسم" />
+        <TextArea name="bio" label="السيرة الذاتية" className="min-h-32" />
 
         <div className="my-4 flex justify-end">
-          <SubmitButton type="submit" variant="default" title="Save Changes" />
+          <SubmitButton type="submit" variant="default" title="حفظ التغييرات" />
         </div>
       </form>
     </FormikProvider>

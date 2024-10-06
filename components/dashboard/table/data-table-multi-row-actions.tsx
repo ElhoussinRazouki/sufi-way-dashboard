@@ -14,6 +14,7 @@ import {
 import { TableMultiRowAction } from './data-table';
 import { AlertModal } from '@/components/modal/alert-modal';
 import { useState } from 'react';
+import React from 'react';
 
 type DataTableMultiRowActionsProps<TData> = {
   rows: Row<TData>[];
@@ -39,24 +40,25 @@ export function DataTableMultiRowActions<TData>({
         <DropdownMenuTrigger asChild>
           <Button
             variant={'outline'}
-            className="flex h-8 gap-2 px-1 data-[state=open]:bg-muted "
+            className="flex h-8 gap-2 px-2 data-[state=open]:bg-muted "
           >
             <span className="flex h-5  items-center justify-center rounded-full bg-gray-600 p-1 px-2 text-gray-100">
               {rows.length}
             </span>
-            <span>item(s)</span>
+            <span className="text-nowrap">عنصر/عناصر</span>
             <ChevronDown className="h-4 w-4" />
-            <span className="sr-only">Open menu</span>
+            <span className="sr-only">افتح القائمة</span>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-[160px]">
-          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+          <DropdownMenuLabel>إجراءات</DropdownMenuLabel>
           {actions.map(({ clickHandler, label, Icon, isSensitive }) => {
             if (!isSensitive) {
               return (
                 <DropdownMenuItem
                   onClick={() => clickHandler(rows)}
                   key={label}
+                  className="flex gap-1"
                 >
                   {Icon && <Icon className="mr-2 h-4 w-4" />}
                   {label}
@@ -72,6 +74,7 @@ export function DataTableMultiRowActions<TData>({
                   })
                 }
                 key={label}
+                className="flex gap-1"
               >
                 {Icon && <Icon className="mr-2 h-4 w-4" />}
                 {label}

@@ -8,9 +8,9 @@ import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
 const breadcrumbItems = [
-  { title: 'Dashboard', link: '/dashboard' },
-  { title: 'Frequent Questions', link: '/dashboard/frequent-questions' },
-  { title: 'Update', link: '/dashboard/frequent-questions/update' }
+  { title: 'لوحة القيادة', link: '/dashboard' },
+  { title: 'الأسئلة المتكررة', link: '/dashboard/frequent-questions' },
+  { title: 'تحديث', link: '/dashboard/frequent-questions/update' }
 ];
 
 export default function Page() {
@@ -27,9 +27,7 @@ export default function Page() {
 
   if (!id) {
     return (
-      <div className="error-message">
-        Invalid question ID. Please try again.
-      </div>
+      <div className="error-message">معرف السؤال غير صالح. حاول مرة أخرى.</div>
     );
   }
 
@@ -37,8 +35,8 @@ export default function Page() {
     <div className="flex-1 space-y-4 p-8">
       <Breadcrumbs items={breadcrumbItems} />
       <Heading
-        title="Update Frequent Question"
-        description="Modify the selected FAQ item using the form below."
+        title="تحديث السؤال المتكرر"
+        description="قم بتعديل عنصر الأسئلة الشائعة المحدد باستخدام النموذج أدناه."
       />
       <Separator />
       <UpdateFqForm id={id as string} />

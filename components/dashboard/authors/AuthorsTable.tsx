@@ -14,6 +14,7 @@ import { Avatar } from '@/components/reusables';
 import { filterElementsType } from '../table/data-table-toolbar';
 import { useToast } from '@/components/ui/use-toast';
 import APIs from '@/api';
+import React from 'react';
 
 export default function AuthorsTable() {
   const router = useRouter();
@@ -37,7 +38,7 @@ export default function AuthorsTable() {
           await remove(id);
         }
         toast({
-          title: 'authors deleted successfully',
+          title: 'تم حذف المؤلفين بنجاح',
           variant: 'default'
         });
       } catch (error) {
@@ -63,13 +64,13 @@ export default function AuthorsTable() {
         columnsDef: [
           {
             accessorKey: 'avatar',
-            title: 'Avatar',
+            title: 'الصورة الرمزية',
             enableSorting: false,
             cell: ({ cell }) => {
               return (
                 <Avatar
                   src={cell.row.original.avatar}
-                  fallback="author avatar"
+                  fallback="صورة المؤلف"
                   className="cursor-pointer"
                   size={12}
                 />
@@ -78,7 +79,7 @@ export default function AuthorsTable() {
           },
           {
             accessorKey: 'name',
-            title: 'Name',
+            title: 'الاسم',
             enableSorting: false,
             cell: ({ row }) => (
               <span className="text-nowrap">{row.original.name}</span>
@@ -86,7 +87,7 @@ export default function AuthorsTable() {
           },
           {
             accessorKey: 'bio',
-            title: 'Bio',
+            title: 'السيرة الذاتية',
             enableSorting: false,
             cell: ({ row }) => (
               <span className="line-clamp-1">{row.original.bio || '-'}</span>
@@ -94,7 +95,7 @@ export default function AuthorsTable() {
           },
           {
             accessorKey: 'created_at',
-            title: 'Created At',
+            title: 'تاريخ الإنشاء',
             cell: ({ row }) => (
               <span className="text-nowrap">
                 {formatDate(row.original.created_at, {
@@ -106,7 +107,7 @@ export default function AuthorsTable() {
           },
           {
             accessorKey: 'updated_at',
-            title: 'Updated At',
+            title: 'تاريخ التحديث',
             cell: ({ row }) => (
               <span className="text-nowrap">
                 {formatDate(row.original.updated_at, {
@@ -119,9 +120,9 @@ export default function AuthorsTable() {
           }
         ],
         actions: [
-          { label: 'Update', clickHandler: handleUpdate, Icon: Edit },
+          { label: 'تحديث', clickHandler: handleUpdate, Icon: Edit },
           {
-            label: 'Delete',
+            label: 'حذف',
             clickHandler: handleRemoveRecord,
             Icon: Trash,
             isSensitive: true
@@ -134,7 +135,7 @@ export default function AuthorsTable() {
   const multiRowActions: TableMultiRowAction<AuthorDTO>[] = useMemo(
     () => [
       {
-        label: 'Delete',
+        label: 'حذف',
         clickHandler: handleRemoveList,
         Icon: Trash,
         isSensitive: true
@@ -146,7 +147,7 @@ export default function AuthorsTable() {
   const filterElements: filterElementsType = {
     searchInput: {
       accessorKey: 'name',
-      placeholder: 'Search by the name...'
+      placeholder: 'ابحث بالاسم...'
     }
   };
 

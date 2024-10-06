@@ -2,17 +2,17 @@
 
 import { Breadcrumbs } from '@/components/breadcrumbs';
 import AuthorsTable from '@/components/dashboard/authors/AuthorsTable';
-import MultimediaTable from '@/components/dashboard/multimedia/MultimediaTable';
 import PageContainer from '@/components/layout/page-container';
 import { Button } from '@/components/ui/button';
 import { Heading } from '@/components/ui/heading';
 import { Plus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import DashboardSection from '@/components/dashboardSection';
 
 const breadcrumbItems = [
-  { title: 'Dashboard', link: '/dashboard' },
-  { title: 'Authors', link: '/dashboard/authors' }
+  { title: 'لوحة القيادة', link: '/dashboard' },
+  { title: 'المؤلفون', link: '/dashboard/authors' }
 ];
 
 type paramsProps = {
@@ -35,23 +35,24 @@ export default function Page({ searchParams }: paramsProps) {
 
   return (
     <PageContainer scrollable={true}>
-      <div className="space-y-4">
+      <DashboardSection>
         <Breadcrumbs items={breadcrumbItems} />
 
         <div className="flex items-start justify-between">
           <Heading
-            title="Manage All The Authors"
-            description="Here you can manage all the authors in the system"
+            title="إدارة جميع المؤلفين"
+            description="هنا يمكنك إدارة جميع المؤلفين في النظام"
           />
           <Button
             variant={'default'}
             onClick={() => router.push('/dashboard/authors/new')}
+            className="text-nowrap"
           >
-            <Plus className="mr-2 h-4 w-4" /> Add New
+            <Plus className="mr-2 h-4 w-4" /> إضافة جديد
           </Button>
         </div>
         <AuthorsTable />
-      </div>
+      </DashboardSection>
     </PageContainer>
   );
 }

@@ -13,8 +13,8 @@ import * as yup from 'yup';
 import { useState } from 'react';
 
 const CreateFqSchema = yup.object().shape({
-  question: yup.string().required('Please enter a question.'),
-  response: yup.string().required('Please provide a response.')
+  question: yup.string().required('يرجى إدخال سؤال.'),
+  response: yup.string().required('يرجى تقديم رد.')
 });
 
 export default function CreateFqForm() {
@@ -34,7 +34,7 @@ export default function CreateFqForm() {
       try {
         await create(values);
         toast({
-          title: 'Frequent Question added successfully!',
+          title: 'تمت إضافة السؤال المتكرر بنجاح!',
           variant: 'default'
         });
         router.back();
@@ -53,15 +53,15 @@ export default function CreateFqForm() {
         {/* Question Input Field */}
         <InputField
           name="question"
-          label="Question"
-          placeholder="Enter the FAQ question here"
+          label="السؤال"
+          placeholder="أدخل السؤال المتكرر هنا"
         />
 
         {/* Response TextArea */}
         <TextArea
           name="response"
-          label="Response"
-          placeholder="Provide a detailed response for the question"
+          label="الرد"
+          placeholder="قدم ردًا مفصلاً على السؤال"
         />
 
         {/* Submit Button */}
@@ -69,7 +69,7 @@ export default function CreateFqForm() {
           <SubmitButton
             type="submit"
             variant="default"
-            title={isSubmitting ? 'Submitting...' : 'Add Question'}
+            title={isSubmitting ? 'جارٍ الإرسال...' : 'إضافة سؤال'}
             disabled={isSubmitting}
           />
         </div>

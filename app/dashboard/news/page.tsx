@@ -1,8 +1,8 @@
 'use client';
 
 import { Breadcrumbs } from '@/components/breadcrumbs';
-import MultimediaTable from '@/components/dashboard/multimedia/MultimediaTable';
 import NewsTable from '@/components/dashboard/news/NewsTable';
+import DashboardSection from '@/components/dashboardSection';
 import PageContainer from '@/components/layout/page-container';
 import { Button } from '@/components/ui/button';
 import { Heading } from '@/components/ui/heading';
@@ -11,8 +11,8 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 const breadcrumbItems = [
-  { title: 'Dashboard', link: '/dashboard' },
-  { title: 'News', link: '/dashboard/news' }
+  { title: 'لوحة القيادة', link: '/dashboard' },
+  { title: 'الأخبار', link: '/dashboard/news' }
 ];
 
 export default function MultiMediaPage() {
@@ -29,20 +29,24 @@ export default function MultiMediaPage() {
 
   return (
     <PageContainer scrollable={true}>
-      <div className="space-y-4">
+      <DashboardSection>
         <Breadcrumbs items={breadcrumbItems} />
 
         <div className="flex items-start justify-between">
-          <Heading title="Manage News" description="managing all system news" />
+          <Heading
+            title="إدارة الأخبار"
+            description="قم بإدارة جميع الأخبار المتعلقة بالنظام هنا"
+          />
           <Button
             variant={'default'}
             onClick={() => router.push('/dashboard/news/new')}
+            className="text-nowrap"
           >
-            <Plus className="mr-2 h-4 w-4" /> Add New
+            <Plus className="mr-2 h-4 w-4" /> إضافة خبر جديد
           </Button>
         </div>
         <NewsTable />
-      </div>
+      </DashboardSection>
     </PageContainer>
   );
 }
