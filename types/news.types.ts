@@ -4,7 +4,7 @@ export type NewsDTO = {
   _id: string;
   title: string;
   description: string;
-  url: string;
+  url: string[];
   created_at: string;
   updated_at: string;
 };
@@ -18,7 +18,7 @@ export const NewsDTOSchema = Yup.object().shape({
   _id: Yup.string().required(),
   title: Yup.string().required(),
   description: Yup.string().required(),
-  url: Yup.string().required(),
+  url: Yup.array().of(Yup.string()).optional(),
   created_at: Yup.string().required(),
   updated_at: Yup.string().required()
 });
