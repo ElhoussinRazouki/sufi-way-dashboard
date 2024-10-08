@@ -97,11 +97,8 @@ export default function NewsTable() {
             accessorKey: 'created_at',
             title: 'تاريخ الإنشاء',
             cell: ({ row }) => (
-              <span>
-                {formatDate(row.original.created_at, {
-                  format: 'full',
-                  includeTime: true
-                })}
+              <span className="text-nowrap" dir="ltr">
+                {formatDate(row.original.created_at, {})}
               </span>
             )
           },
@@ -110,11 +107,8 @@ export default function NewsTable() {
             title: 'تاريخ التحديث',
             enableSorting: false,
             cell: ({ row }) => (
-              <span>
-                {formatDate(row.original.updated_at, {
-                  format: 'full',
-                  includeTime: true
-                })}
+              <span className="text-nowrap" dir="ltr">
+                {formatDate(row.original.updated_at, {})}
               </span>
             )
           }

@@ -1,9 +1,8 @@
 import { AuthTokenDto, UserDto } from '@/types/auth.types';
 import { jwtDecode } from 'jwt-decode';
-import dayjs from 'dayjs';
 import { RANDOM_COLORS } from '@/constants/data';
 import { ColumnFiltersState } from '@tanstack/react-table';
-
+import moment from 'moment-hijri';
 const AUTH_TOKEN_NAME = 'auth' as const;
 
 export function saveAuthTokenToLocalStorage(token: AuthTokenDto) {
@@ -140,21 +139,27 @@ export function generateColorsFromString(str: string, intensity: number = 1) {
 interface FormatOptions {
   format?: 'full' | 'short';
   includeTime?: boolean;
+  type?: 'georgian' | 'hijri';
 }
 
 export function formatDate(
   dateString: string,
-  options: FormatOptions = { format: 'full' }
+  options: FormatOptions = { format: 'full', type: 'hijri', includeTime: false }
 ): string {
   const { format, includeTime } = options;
 
-  let dateFormat = format === 'short' ? 'DD MMM YYYY' : 'DD MMMM YYYY';
+  let dateFormat;
+  if (options.type === 'georgian') {
+    dateFormat = format === 'short' ? 'YYYY-M-D' : 'YYYY MMMM DD';
+  } else {
+    dateFormat = format === 'short' ? 'iYYYY-iM-iD' : 'iYYYY iMMMM iDD';
+  }
 
   if (includeTime) {
     dateFormat += ' HH:mm';
   }
 
-  return dayjs(dateString).format(dateFormat);
+  return moment(dateString).format(dateFormat);
 }
 
 // debounce function

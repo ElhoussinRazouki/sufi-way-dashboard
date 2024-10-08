@@ -97,11 +97,8 @@ export default function AuthorsTable() {
             accessorKey: 'created_at',
             title: 'تاريخ الإنشاء',
             cell: ({ row }) => (
-              <span className="text-nowrap">
-                {formatDate(row.original.created_at, {
-                  format: 'full',
-                  includeTime: true
-                })}
+              <span className="text-nowrap" dir="ltr">
+                {formatDate(row.original.created_at, {})}
               </span>
             )
           },
@@ -109,11 +106,8 @@ export default function AuthorsTable() {
             accessorKey: 'updated_at',
             title: 'تاريخ التحديث',
             cell: ({ row }) => (
-              <span className="text-nowrap">
-                {formatDate(row.original.updated_at, {
-                  format: 'full',
-                  includeTime: true
-                })}
+              <span className="text-nowrap" dir="ltr">
+                {formatDate(row.original.updated_at, {})}
               </span>
             ),
             enableSorting: false
