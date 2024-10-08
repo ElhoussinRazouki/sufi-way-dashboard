@@ -30,7 +30,7 @@ export default function generateColumnsDefinition<T>({
     columns.push({
       id: 'select',
       header: ({ table }) => (
-        <div className="p-2">
+        <div className="flex justify-start p-2">
           <Checkbox
             checked={
               table.getIsAllPageRowsSelected() ||
