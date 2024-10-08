@@ -46,7 +46,7 @@ export default function Page({ searchParams }: paramsProps) {
           <Button
             variant={'default'}
             onClick={() => router.push('/dashboard/frequent-questions/new')}
-            className="text-nowrap"
+            className="text-nowrap text-white"
           >
             <Plus className="mr-2 h-4 w-4" /> إضافة جديد
           </Button>

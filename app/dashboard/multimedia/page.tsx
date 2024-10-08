@@ -39,7 +39,7 @@ export default function MultiMediaPage() {
           <Button
             variant={'default'}
             onClick={() => router.push('/dashboard/multimedia/new')}
-            className="text-nowrap"
+            className="text-nowrap text-white"
           >
             <Plus className="mr-2 h-4 w-4" /> إضافة جديدة
           </Button>
