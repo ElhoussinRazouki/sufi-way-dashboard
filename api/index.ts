@@ -3,8 +3,9 @@ import profile from './profile.api';
 import multimedia from './multimedia.api';
 import common from './common.api';
 import authors from './authors.api';
-import FqApi from './fq.api';
-import newsApi from './news.api';
+import fq from './fq.api';
+import news from './news.api';
+import generalSettings from './general-settings.api';
 
 const APIs = {
   auth,
@@ -12,8 +13,9 @@ const APIs = {
   multimedia,
   common,
   authors,
-  FqApi,
-  newsApi
+  fq,
+  news,
+  generalSettings
   //... extend with other APIs here
 };
 

@@ -7,7 +7,7 @@ import { Separator } from '@/components/ui/separator';
 import React, { useEffect, useState } from 'react';
 
 const breadcrumbItems = [
-  { title: 'لوحة القيادة', link: '/dashboard' },
+  { title: 'لوحة التحكم', link: '/dashboard' },
   { title: 'الأسئلة المتكررة', link: '/dashboard/frequent-questions' },
   { title: 'إنشاء', link: '/dashboard/frequent-questions/create' }
 ];
@@ -27,7 +27,7 @@ export default function Page() {
       <Breadcrumbs items={breadcrumbItems} />
       <Heading
         title="إنشاء سؤال متكرر جديد"
-        description="املأ النموذج أدناه لإضافة عنصر سؤال متكرر جديد إلى لوحة القيادة."
+        description="املأ النموذج أدناه لإضافة عنصر سؤال متكرر جديد إلى لوحة التحكم."
       />
       <Separator />
       <CreateFqForm />

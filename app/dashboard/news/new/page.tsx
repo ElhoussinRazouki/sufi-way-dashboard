@@ -7,7 +7,7 @@ import { Separator } from '@/components/ui/separator';
 import React, { useEffect, useState } from 'react';
 
 const breadcrumbItems = [
-  { title: 'لوحة القيادة', link: '/dashboard' },
+  { title: 'لوحة التحكم', link: '/dashboard' },
   { title: 'الأخبار', link: '/dashboard/news' },
   { title: 'إنشاء', link: '/dashboard/news/create' }
 ];

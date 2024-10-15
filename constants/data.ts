@@ -1,5 +1,11 @@
 import { NavItem } from '@/types';
-import { BookA, CircleHelp, LibraryBig, Newspaper } from 'lucide-react';
+import {
+  BookA,
+  CircleHelp,
+  LibraryBig,
+  Newspaper,
+  Settings
+} from 'lucide-react';
 
 export type User = {
   id: number;
@@ -59,6 +65,12 @@ export const navItems: NavItem[] = [
     href: '/dashboard/news',
     lucidIcon: Newspaper,
     label: 'الأخبار'
+  },
+  {
+    title: 'الإعدادات',
+    href: '/dashboard/settings',
+    lucidIcon: Settings,
+    label: 'الإعدادات'
   }
 ];
 

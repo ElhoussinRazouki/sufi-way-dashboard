@@ -10,7 +10,7 @@ export function useFrequentQuestions() {
 
   const { data, ...rest } = useQuery(
     ['fq_list', pagination.query],
-    () => APIs.FqApi.list(pagination.query),
+    () => APIs.fq.list(pagination.query),
     {
       suspense: true,
       retry: false
@@ -22,7 +22,7 @@ export function useFrequentQuestions() {
 
   const create = useCallback(
     async (data: FqCreateDTO) => {
-      return APIs.FqApi.create(data).then((created) => {
+      return APIs.fq.create(data).then((created) => {
         queryClient.invalidateQueries('fq_list');
         return created;
       });
@@ -32,7 +32,7 @@ export function useFrequentQuestions() {
 
   const update = useCallback(
     async (id: string, data: FqPatchDTO) => {
-      return APIs.FqApi.update(id, data).then((updated) => {
+      return APIs.fq.update(id, data).then((updated) => {
         queryClient.invalidateQueries('fq_list');
         queryClient.invalidateQueries(['fq', id]);
         return updated;
@@ -43,7 +43,7 @@ export function useFrequentQuestions() {
 
   const remove = useCallback(
     async (id: string) => {
-      return APIs.FqApi.remove(id).then(() => {
+      return APIs.fq.remove(id).then(() => {
         queryClient.invalidateQueries('fq_list');
         queryClient.invalidateQueries(['fq', id]);
       });
@@ -63,7 +63,7 @@ export function useFrequentQuestions() {
 }
 
 export function useFqDetails(id: string) {
-  const { data, ...rest } = useQuery(['fq', id], () => APIs.FqApi.details(id), {
+  const { data, ...rest } = useQuery(['fq', id], () => APIs.fq.details(id), {
     suspense: true,
     retry: false
   });

@@ -31,7 +31,7 @@ export function useNews({ preventFetch, initialFilters }: NewsHookProps = {}) {
 
   const { data, ...rest } = useQuery(
     ['news_list', pagination.query + filters.query],
-    () => APIs.newsApi.List(combineFilters(pagination.query, filters.query)),
+    () => APIs.news.List(combineFilters(pagination.query, filters.query)),
     {
       suspense: true,
       retry: false,
@@ -44,7 +44,7 @@ export function useNews({ preventFetch, initialFilters }: NewsHookProps = {}) {
 
   const create = useCallback(
     async (data: NewsCreateDTO) => {
-      return APIs.newsApi.create(data).then((news) => {
+      return APIs.news.create(data).then((news) => {
         queryClient.invalidateQueries('news_list');
         return news;
       });
@@ -54,7 +54,7 @@ export function useNews({ preventFetch, initialFilters }: NewsHookProps = {}) {
 
   const update = useCallback(
     async (id: string, data: NewsPatchDTO) => {
-      await APIs.newsApi.update(id, data);
+      await APIs.news.update(id, data);
       queryClient.invalidateQueries('news_list');
       queryClient.invalidateQueries(['news', id]);
       return;
@@ -64,7 +64,7 @@ export function useNews({ preventFetch, initialFilters }: NewsHookProps = {}) {
 
   const remove = useCallback(
     async (id: string) => {
-      return APIs.newsApi.remove(id).then(() => {
+      return APIs.news.remove(id).then(() => {
         queryClient.invalidateQueries('news_list');
         queryClient.invalidateQueries(['news', id]);
       });
@@ -87,7 +87,7 @@ export function useNews({ preventFetch, initialFilters }: NewsHookProps = {}) {
 export function useNewsDetails(id: string) {
   const { data, ...rest } = useQuery(
     ['news', id],
-    () => APIs.newsApi.Details(id),
+    () => APIs.news.Details(id),
     {
       suspense: true,
       retry: false

@@ -74,7 +74,7 @@ export default function UpdateMultimediaForm({
 
   return (
     <FormikProvider value={formik}>
-      <form onSubmit={formik.handleSubmit}>
+      <form onSubmit={formik.handleSubmit} className={className || ''}>
         <InputField name="title" label="العنوان" />
         <AuthorsComboBoxField
           label="المؤلف"

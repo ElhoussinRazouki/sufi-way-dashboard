@@ -8,7 +8,7 @@ import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
 const breadcrumbItems = [
-  { title: 'لوحة القيادة', link: '/dashboard' },
+  { title: 'لوحة التحكم', link: '/dashboard' },
   { title: 'المؤلفون', link: '/dashboard/authors' },
   { title: 'تحديث', link: '/dashboard/authors/update' }
 ];

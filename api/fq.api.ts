@@ -1,11 +1,5 @@
 import { PaginatedResponseDto, ResponseDto } from '@/types';
 import axiosApi from './axios.api';
-import {
-  AuthorCreateDTO,
-  AuthorDTO,
-  AuthorDTOSchema,
-  AuthorPatchDTO
-} from '@/types/multimedia.types';
 import { FqCreateDTO, FqDTO, FqDTOSchema, FqPatchDTO } from '@/types/fq.types';
 
 async function list(query: string) {
@@ -46,7 +40,7 @@ async function remove(id: string) {
   return response.data;
 }
 
-const FqApi = {
+const fq = {
   list,
   details,
   create,
@@ -54,4 +48,4 @@ const FqApi = {
   remove
 };
 
-export default FqApi;
+export default fq;

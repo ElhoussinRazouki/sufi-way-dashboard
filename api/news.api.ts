@@ -39,7 +39,7 @@ async function remove(id: string) {
   return response.data;
 }
 
-const newsApi = {
+const news = {
   List,
   Details,
   create,
@@ -47,4 +47,4 @@ const newsApi = {
   remove
 };
 
-export default newsApi;
+export default news;

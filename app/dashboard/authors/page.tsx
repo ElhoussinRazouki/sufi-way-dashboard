@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react';
 import DashboardSection from '@/components/dashboardSection';
 
 const breadcrumbItems = [
-  { title: 'لوحة القيادة', link: '/dashboard' },
+  { title: 'لوحة التحكم', link: '/dashboard' },
   { title: 'المؤلفون', link: '/dashboard/authors' }
 ];
 

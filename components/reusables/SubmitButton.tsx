@@ -21,7 +21,7 @@ export default function SubmitButton({
   return (
     <Button type="submit" className={className} {...rest}>
       {formik.isSubmitting ? (
-        <Loader color="#FFF" className="animate-spin" size={12} />
+        <Loader color="#FFF" className="animate-spin" size={18} />
       ) : (
         title || children
       )}
