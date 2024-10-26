@@ -7,7 +7,6 @@ import { useToast } from '@/components/ui/use-toast';
 import { useGeneralSettings } from '@/hooks/dashboard/general-settings.hook';
 import { GeneralSettingsPatchDTO } from '@/types/general-settings.types';
 import { FormikProvider, useFormik } from 'formik';
-import { useRouter } from 'next/navigation';
 import * as yup from 'yup';
 
 const UpdateGeneralSettingsSchema = yup.object().shape({

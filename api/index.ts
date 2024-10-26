@@ -6,6 +6,7 @@ import authors from './authors.api';
 import fq from './fq.api';
 import news from './news.api';
 import generalSettings from './general-settings.api';
+import adkar_adia from './adkar-adia.api';
 
 const APIs = {
   auth,
@@ -15,6 +16,7 @@ const APIs = {
   authors,
   fq,
   news,
+  adkar_adia,
   generalSettings
   //... extend with other APIs here
 };
