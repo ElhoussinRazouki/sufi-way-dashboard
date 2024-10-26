@@ -4,7 +4,8 @@ import {
   CircleHelp,
   LibraryBig,
   Newspaper,
-  Settings
+  Settings,
+  Star
 } from 'lucide-react';
 
 export type User = {
@@ -47,6 +48,12 @@ export const navItems: NavItem[] = [
     href: '/dashboard/multimedia',
     lucidIcon: LibraryBig,
     label: 'مكتبة الوسائط'
+  },
+  {
+    title: 'الأذكار والأدعية',
+    href: '/dashboard/adkar-adia',
+    lucidIcon: Star,
+    label: 'الأذكار والأدعية'
   },
   {
     title: 'المؤلفون',
