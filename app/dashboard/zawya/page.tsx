@@ -8,11 +8,11 @@ import { Plus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import DashboardSection from '@/components/dashboardSection';
-import SheikhsTable from '@/components/dashboard/sheikhs/SheikhsTable';
+import ZawyaTable from '@/components/dashboard/zawya/ZawyaTable';
 
 const breadcrumbItems = [
   { title: 'لوحة التحكم', link: '/dashboard' },
-  { title: 'الشيوخ', link: '/dashboard/sheikhs' }
+  { title: 'الزوايا', link: '/dashboard/zawya' }
 ];
 
 export default function Page() {
@@ -34,18 +34,18 @@ export default function Page() {
 
         <div className="flex items-start justify-between">
           <Heading
-            title="إدارة معلومات الشيوخ"
-            description="هنا يمكنك إدارة جميع معلومات الشيوخ"
+            title="قائمة الزوايا"
+            description="هنا يمكنك إدارة معلومات الزوايا"
           />
           <Button
             variant={'default'}
-            onClick={() => router.push('/dashboard/sheikhs/new')}
+            onClick={() => router.push('/dashboard/zawya/new')}
             className="truncate whitespace-nowrap text-white"
           >
             <Plus className="mr-2 h-4 w-4" /> إضافة جديدة
           </Button>
         </div>
-        <SheikhsTable />
+        <ZawyaTable />
       </DashboardSection>
     </PageContainer>
   );

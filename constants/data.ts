@@ -3,6 +3,7 @@ import {
   BookA,
   CircleHelp,
   LibraryBig,
+  MapPinHouse,
   Newspaper,
   Settings,
   SquareUserRound,
@@ -67,6 +68,12 @@ export const navItems: NavItem[] = [
     href: '/dashboard/sheikhs',
     lucidIcon: SquareUserRound,
     label: 'الشيوخ'
+  },
+  {
+    title: 'الزوايا',
+    href: '/dashboard/zawya',
+    lucidIcon: MapPinHouse,
+    label: 'الزوايا'
   },
   {
     title: 'الأسئلة المتكررة',

@@ -1,15 +1,16 @@
 'use client';
 
 import { Breadcrumbs } from '@/components/breadcrumbs';
-import CreateSheikhForm from '@/components/forms/dashboard/sheikhs/CreateForm';
+import UpdateSheikhForm from '@/components/forms/dashboard/sheikhs/updateForm';
 import { Heading } from '@/components/ui/heading';
 import { Separator } from '@/components/ui/separator';
+import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
 const breadcrumbItems = [
   { title: 'لوحة التحكم', link: '/dashboard' },
-  { title: 'شيوخ', link: '/dashboard/sheikhs' },
-  { title: 'إضافة', link: '/dashboard/authors/new' }
+  { title: 'زوايا', link: '/dashboard/zawya' },
+  { title: 'تحديث', link: '/dashboard/zawya/update' }
 ];
 
 export default function Page() {
@@ -18,19 +19,21 @@ export default function Page() {
   useEffect(() => {
     setIsMounted(true);
   }, []);
+  const { id } = useParams();
 
   if (!isMounted) {
     return null;
   }
+
   return (
     <div className="flex-1 space-y-4 p-8">
       <Breadcrumbs items={breadcrumbItems} />
       <Heading
-        title="إضافة معلومات الشيخ الجديد"
-        description="يمكنك إضافة جميع المعلومات المتعلقة هنا"
+        title="تحديث معلومات الزاوية"
+        description="هنا يمكنك تحديث جميع المعلومات المتعلقة بالزاوية"
       />
       <Separator />
-      <CreateSheikhForm />
+      <UpdateSheikhForm id={id as string} />
     </div>
   );
 }

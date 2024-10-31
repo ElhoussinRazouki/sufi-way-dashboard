@@ -8,6 +8,7 @@ import news from './news.api';
 import generalSettings from './general-settings.api';
 import adkar_adia from './adkar-adia.api';
 import sheikhs from './sheikhs.api';
+import zawya from './zawya.api';
 
 const APIs = {
   auth,
@@ -19,7 +20,8 @@ const APIs = {
   news,
   adkar_adia,
   generalSettings,
-  sheikhs
+  sheikhs,
+  zawya
   //... extend with other APIs here
 };
 

@@ -2,14 +2,15 @@
 
 import { Breadcrumbs } from '@/components/breadcrumbs';
 import CreateSheikhForm from '@/components/forms/dashboard/sheikhs/CreateForm';
+import CreateZawyaForm from '@/components/forms/dashboard/zawya/CreateForm';
 import { Heading } from '@/components/ui/heading';
 import { Separator } from '@/components/ui/separator';
 import React, { useEffect, useState } from 'react';
 
 const breadcrumbItems = [
   { title: 'لوحة التحكم', link: '/dashboard' },
-  { title: 'شيوخ', link: '/dashboard/sheikhs' },
-  { title: 'إضافة', link: '/dashboard/authors/new' }
+  { title: 'زاوية', link: '/dashboard/zawya' },
+  { title: 'إنشاء', link: '/dashboard/zawya/new' }
 ];
 
 export default function Page() {
@@ -26,11 +27,11 @@ export default function Page() {
     <div className="flex-1 space-y-4 p-8">
       <Breadcrumbs items={breadcrumbItems} />
       <Heading
-        title="إضافة معلومات الشيخ الجديد"
-        description="يمكنك إضافة جميع المعلومات المتعلقة هنا"
+        title="إضافة معلومات الزاوية الجديدة"
+        description="هنا يمكنك إضافة جميع المعلومات ذات الصلة"
       />
       <Separator />
-      <CreateSheikhForm />
+      <CreateZawyaForm />
     </div>
   );
 }
