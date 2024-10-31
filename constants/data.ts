@@ -5,6 +5,7 @@ import {
   LibraryBig,
   Newspaper,
   Settings,
+  SquareUserRound,
   Star
 } from 'lucide-react';
 
@@ -60,6 +61,12 @@ export const navItems: NavItem[] = [
     href: '/dashboard/authors',
     lucidIcon: BookA,
     label: 'المؤلفون'
+  },
+  {
+    title: 'الشيوخ',
+    href: '/dashboard/sheikhs',
+    lucidIcon: SquareUserRound,
+    label: 'الشيوخ'
   },
   {
     title: 'الأسئلة المتكررة',

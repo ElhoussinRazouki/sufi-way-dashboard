@@ -7,6 +7,7 @@ import fq from './fq.api';
 import news from './news.api';
 import generalSettings from './general-settings.api';
 import adkar_adia from './adkar-adia.api';
+import sheikhs from './sheikhs.api';
 
 const APIs = {
   auth,
@@ -17,7 +18,8 @@ const APIs = {
   fq,
   news,
   adkar_adia,
-  generalSettings
+  generalSettings,
+  sheikhs
   //... extend with other APIs here
 };
 

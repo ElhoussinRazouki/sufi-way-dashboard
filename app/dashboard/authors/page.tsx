@@ -48,7 +48,7 @@ export default function Page({ searchParams }: paramsProps) {
             onClick={() => router.push('/dashboard/authors/new')}
             className="text-nowrap text-white"
           >
-            <Plus className="mr-2 h-4 w-4" /> إضافة جديد
+            <Plus className="mr-2 h-4 w-4" /> إضافة جديدة
           </Button>
         </div>
         <AuthorsTable />

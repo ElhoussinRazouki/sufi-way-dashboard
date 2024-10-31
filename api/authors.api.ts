@@ -43,7 +43,7 @@ async function remove(id: string) {
   return response.data;
 }
 
-const multimediaApi = {
+const authorApi = {
   list,
   details,
   create,
@@ -51,4 +51,4 @@ const multimediaApi = {
   remove
 };
 
-export default multimediaApi;
+export default authorApi;
