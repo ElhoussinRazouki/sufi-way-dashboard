@@ -1,7 +1,7 @@
 'use client';
 
 import { Breadcrumbs } from '@/components/breadcrumbs';
-import UpdateSheikhForm from '@/components/forms/dashboard/sheikhs/updateForm';
+import UpdateZawyaForm from '@/components/forms/dashboard/zawya/updateForm';
 import { Heading } from '@/components/ui/heading';
 import { Separator } from '@/components/ui/separator';
 import { useParams } from 'next/navigation';
@@ -33,7 +33,7 @@ export default function Page() {
         description="هنا يمكنك تحديث جميع المعلومات المتعلقة بالزاوية"
       />
       <Separator />
-      <UpdateSheikhForm id={id as string} />
+      <UpdateZawyaForm id={id as string} />
     </div>
   );
 }
