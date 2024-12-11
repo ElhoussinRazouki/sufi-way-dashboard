@@ -122,6 +122,7 @@ export default function ImageUploaderField({
             <Button
               className="absolute right-0 top-0 h-10 w-10 rounded-full bg-red-500/45 p-1 text-white hover:bg-red-600/45"
               onClick={handleDeleteFile}
+              type='button'
             >
               <Trash size={22} />
             </Button>
