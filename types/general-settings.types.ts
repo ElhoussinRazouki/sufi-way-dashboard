@@ -10,6 +10,6 @@ export type GeneralSettingsDTO = {
 export type GeneralSettingsPatchDTO = GeneralSettingsDTO;
 
 export const GeneralSettingsDTOSchema = Yup.object().shape({
-  sheikhEmail: Yup.string().optional(),
-  supportEmail: Yup.string().optional()
+  sheikhEmail: Yup.string().optional().nullable(),
+  supportEmail: Yup.string().optional().nullable()  
 });
